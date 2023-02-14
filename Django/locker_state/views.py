@@ -21,8 +21,10 @@ def LockerList(request,format = None):
             return Response(serializer.data)
 
         elif request.method == 'POST':
-            print(request)
+            #print(request)
             serializer = LockerCreateSerializer(data = request.data)
+            if Item.objects.filter(**request.data).exists():
+                raise serializers.ValidationError('This data already exists')
             print('post on')
             if serializer.is_valid():
                 serializer.save()
