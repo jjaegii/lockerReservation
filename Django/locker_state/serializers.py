@@ -5,4 +5,9 @@ from .models import Locker
 class LockerSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Locker
+        fields = ['location','row','column']
+
+class LockerCreateSerializer(serializers.ModelSerializer) :
+    class Meta :
+        model = Locker
         fields = ['studentID','location','row','column']

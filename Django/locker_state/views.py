@@ -5,25 +5,32 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import Locker
 #from rest_framework.views import APIView
-from .serializers import LockerSerializer
+from .serializers import LockerSerializer,LockerCreateSerializer
 
 # Create your views here.
 
 
 @api_view(['GET','POST'])
-def LockerList(request):
+def LockerList(request,format = None):
     try:
         if request.method == 'GET':
             loc = request.GET['location']
-            #print(loc)
+            #print(loc) 
             queryset = Locker.objects.filter(location = loc)
             serializer = LockerSerializer(queryset,many = True)
             return Response(serializer.data)
 
-        #elif request.method == 'POST':
-
+        elif request.method == 'POST':
+            print(request)
+            serializer = LockerCreateSerializer(data = request.data)
+            print('post on')
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status = status.HTTP_201_CREATED)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    #return Response(status=status.HTTP_404_NOT_FOUND)
+        
 
 '''
 @api_view(['POST'])
