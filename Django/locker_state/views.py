@@ -1,10 +1,9 @@
-#from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-#from django.http.response import HttpResponse
+from rest_framework import exceptions
 from rest_framework import status
+
 from .models import Locker
-#from rest_framework.views import APIView
 from .serializers import LockerSerializer,LockerCreateSerializer
 
 # Create your views here.
@@ -23,8 +22,23 @@ def LockerList(request,format = None):
         elif request.method == 'POST':
             #print(request)
             serializer = LockerCreateSerializer(data = request.data)
-            if Item.objects.filter(**request.data).exists():
+            if Locker.objects.filter(**request.data).exists():
                 raise serializers.ValidationError('This data already exists')
+
+            if Locker.objects.filter(location = request.data['location'], row = request.data['row'], column =  request.data['column'] ).exists():
+                raise serializers.ValidationError('location is already use')
+
+            if Locker.objects.filter(studentID = request.data['studentID']).exists():
+                raise serializers.ValidationError('This data already exists')
+            
+
+            if (len(request.data['studentID']) > 8 or len(request.data['location']) > 1):
+                #print('here')
+                raise exceptions.ParseError("not enable data")
+
+            if(request.data['studentID']== null or request.data['location']== null or request.data['row']== null or request.data['column']== null ):
+                raise exceptions.ParseError("not enable data")
+
             print('post on')
             if serializer.is_valid():
                 serializer.save()
@@ -33,31 +47,3 @@ def LockerList(request,format = None):
         return Response(status=status.HTTP_404_NOT_FOUND)
     #return Response(status=status.HTTP_404_NOT_FOUND)
         
-
-'''
-@api_view(['POST'])
-def LockerList(request):
-    queryset = Locker.object.all()
-    serializer = LockerSerializer(queryset,many = True)
-    return Response(serializer.data)
-'''
-'''
-class LockerListAPIView(APIView):
-    def post(self,requset):
-        queryset = Locker.objects.all()
-        serializer = LockerSerializer(queryset,many=True)
-'''
-'''
-class RegistrationAPIView(APIView):
-    permission_classes = (AllowAny,)
-    serializer_class = RegistrationSerializer
-
-    def post(self, request):
-        user = request.data
-
-        serializer = self.serializer_class(data=user)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-'''
