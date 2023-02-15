@@ -6,44 +6,19 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 # User Model
 
 
-class UserManager(BaseUserManager):
-    # user 생성
-    def create_user(self, studentID, name, phone_num, password=None):
-        if not studentID:
-            raise ValueError('Users must have an studentID.')
-        if not name:
-            raise ValueError('Users must have an name')
-        if not phone_num:
-            raise ValueError('Users must have an phone_num')
-        user = self.model(
-            studentID=studentID,
-            name=name,
-            phone_num=phone_num
-        )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-
-class User(AbstractBaseUser):
+class User(models.Model):
     studentID = models.CharField(
-        max_length=8, null=False, unique=True, blank=False)
+        max_length=8, null=False, unique=True, blank=False, primary_key=True)
     name = models.CharField(max_length=40, null=False, blank=False)
     phone_num = models.CharField(
         max_length=13, null=False, unique=True, blank=False)
-
-    objects = UserManager()  # 헬퍼 클래스 사용
-
-    USERNAME_FIELD = 'studentID'  # 로그인 ID로 사용할 필드
-    REQUIRED_FIELDS = ['studentID', 'name', 'phone_num']  # 필수 작성 필드
+    password = models.CharField(
+        max_length=255, null=False, unique=False, blank=False)
 
     def __str__(self):
         return self.studentID
 
-    def get_full_name(self):
-        return self.studentID
-
-    def get_short_name(self):
+    def get_name(self):
         return self.studentID
 
 
