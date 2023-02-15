@@ -6,4 +6,5 @@ urlpatterns = [
     # path('register/', views.Auth.as_view())
     path('register', views.registration_api),
     path('login', views.login_api),
+    path('logout', views.logout_api)
 ]
