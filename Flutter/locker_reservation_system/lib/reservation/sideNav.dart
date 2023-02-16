@@ -6,7 +6,14 @@ import 'package:locker_reservation_system/providers/snum_prv.dart';
 
 class SideNav extends StatelessWidget {
   // Room Number List
-  List<int> list = [1, 2, 3, 4];
+  List<String> list = [
+    "1층 113호 앞",
+    "1층 114호 앞",
+    "2층 214호 앞",
+    "2층 219호 앞",
+    "2층 219호 옆"
+  ];
+
   List<String> imageList = [
     "images/113.png",
     "images/114.png",
@@ -30,12 +37,12 @@ class SideNav extends StatelessWidget {
   }
 }
 
-Widget roomButton(int roomNum, int index, BuildContext context) {
+Widget roomButton(String roomName, int index, BuildContext context) {
   return ElevatedButton(
-    child: Text("$roomNum"),
+    child: Text(roomName),
     onPressed: () {
       context.read<SnumProvider>().selectRoom(index);
-      print("$roomNum 번 방을 선택하셨습니다.");
+      print("$roomName 번 방을 선택하셨습니다.");
     },
   );
 }
