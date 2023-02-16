@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/snum_prv.dart';
-import 'package:locker_reservation_system/login.dart';
-import 'package:locker_reservation_system/signup.dart';
+import 'package:locker_reservation_system/user_service/login.dart';
+import 'package:locker_reservation_system/user_service/signup.dart';
 
 // 상단 바 부분
 
