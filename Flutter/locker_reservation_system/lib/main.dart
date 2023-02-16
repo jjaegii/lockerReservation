@@ -44,7 +44,7 @@ class _MainPageState extends State<MainPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            sideNav(),
+            SideNav(),
             const Text(
               'You have pushed the button this many times:',
             ),
