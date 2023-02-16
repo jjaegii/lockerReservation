@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/snum_prv.dart';
 import 'package:locker_reservation_system/navbar.dart';
@@ -47,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                  // 학번 입력란
                   TextField(
                     keyboardType: TextInputType.number,
                     autofocus: true,
@@ -58,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     controller: _snumController,
                   ),
+                  // 비밀번호 입력란
                   TextField(
                     obscureText: true,
                     cursorColor: Colors.black26,
@@ -68,21 +71,26 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     controller: _pwController,
                   ),
+                  // 확인 버튼 -> 메인 페이지로 이동
                   ElevatedButton(
                       onPressed: () {
                         setState(() {
                           _snum = _snumController.text;
                           _pw = _pwController.text;
                         });
+                        String nextPage = '/';
+                        MyRouter.router.navigateTo(context, nextPage);
                         _snumProvider.login(_snum);
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       },
                       child: Text('확인')),
                   // Text(_snum),
                   // Text(_pw),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        String nextPage = '/';
+                        MyRouter.router.navigateTo(context, nextPage);
+                        // Navigator.pop(context);
                       },
                       child: Text('뒤로가기')),
                         ],

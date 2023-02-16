@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/navbar.dart';
+import 'package:locker_reservation_system/router.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -98,6 +99,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         //   _snum = _snumController.text;
                         //   _pw = _pwController.text;
                         // });
+                        String nextPage = '/';
+                        MyRouter.router.navigateTo(context, nextPage);
                         // _snumProvider.login(_snum);
                         // Navigator.pop(context);
                       },
@@ -106,6 +109,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   // Text(_pw),
                   ElevatedButton(
                       onPressed: () {
+                        String nextPage = '/';
+                        MyRouter.router.navigateTo(context, nextPage);
                         // Navigator.pop(context);
                       },
                       child: Text('뒤로가기')),
