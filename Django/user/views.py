@@ -33,7 +33,7 @@ def registration_api(request):
         phone_num = data['phone_num']
         password = data['password']
         # studentID 중복 있는지 체크
-        obj = User.objects.get(studentID=studentID)
+        obj = User.objects.filter(studentID=studentID)
         if obj:
             return Response({"error": "already exists"}, status=status.HTTP_409_CONFLICT)
         # password 암호화는 나중에
