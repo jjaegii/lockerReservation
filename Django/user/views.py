@@ -54,13 +54,16 @@ def login_api(request):
         data = JSONParser().parse(request)  # 얘 왜 에러뜸?
 
         studentID = data['studentID']
-        obj = User.objects.get(studentID=studentID)
+        obj = User.objects.filter(studentID=studentID)
+        if not obj:
+            return Response({"error": "user doesn't exist"}, status=status.HTTP_404_NOT_FOUND)
 
+        obj = User.objects.get(studentID=studentID)
         if data['password'] == obj.password:
             request = session_funcs().set(request, studentID)
             return Response({"studentID": obj.studentID, "name": obj.name}, status=status.HTTP_200_OK)
         else:
-            return Response({"error": "information mismatch"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "password mismatch"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['GET'])
