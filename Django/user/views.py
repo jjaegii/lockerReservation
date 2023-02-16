@@ -35,11 +35,11 @@ def registration_api(request):
         # studentID 중복 있는지 체크
         obj = User.objects.get(studentID=studentID)
         if obj:
-            return Response("already exists", status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
+            return Response({"error": "already exists"}, status=status.HTTP_409_CONFLICT)
         # password 암호화는 나중에
         User.objects.create(studentID=studentID, name=name,
                             phone_num=phone_num, password=password)
-        return Response("registration complete", status=status.HTTP_201_CREATED)
+        return Response({"studentID": studentID, "name": name}, status=status.HTTP_201_CREATED)
 
 # 로그인 기능
 
@@ -49,7 +49,7 @@ def login_api(request):
     if request.method == 'POST':
         session = session_funcs().get(request)
         if session:
-            return Response("already logined", status=status.HTTP_202_ACCEPTED)
+            return Response({"error": "already logined"}, status=status.HTTP_409_CONFLICT)
 
         data = JSONParser().parse(request)  # 얘 왜 에러뜸?
 
@@ -58,9 +58,9 @@ def login_api(request):
 
         if data['password'] == obj.password:
             request = session_funcs().set(request, studentID)
-            return Response("login complete", status=status.HTTP_200_OK)
+            return Response({"studentID": obj.studentID, "name": obj.name}, status=status.HTTP_200_OK)
         else:
-            return Response("login error", status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
+            return Response({"error": "information mismatch"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['GET'])
