@@ -25,6 +25,6 @@ class session_funcs:
         return request
 
     def delete(self, request):
-        if request.session['studentID']:
+        if 'studentID' in request.session:
             del request.session['studentID']
         return request
