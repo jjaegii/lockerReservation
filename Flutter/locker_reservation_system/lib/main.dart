@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/snum_prv.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/reservation/sideNav.dart';
 
 void main() {
+  MyRouter.setupRouters();
   runApp(const MyApp());
 }
 
@@ -17,6 +19,8 @@ class MyApp extends StatelessWidget {
       create: (context) => SnumProvider(),
       child: MaterialApp(
         title: 'Locker Reservation Service',
+        onGenerateRoute: MyRouter.router.generator,
+        initialRoute: '/',
         home: MainPage(title: '사물함 예약 시스템'),
       ),
     );

@@ -5,3 +5,5 @@ __pycache__/
 Django/venv/
 .DS_Store
 Django/db.sqlite3
+Flutter/locker_reservation_system/.dart_tool/package_config.json
+Flutter/locker_reservation_system/.dart_tool/package_config_subset
