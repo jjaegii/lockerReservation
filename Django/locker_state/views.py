@@ -14,6 +14,8 @@ def LockerList(request,format = None):
     try:
         if request.method == 'GET':
             loc = request.GET['location']
+            if len(loc) > 1 :
+                raise exceptions.ParseError("not enable data")
             #print(loc) 
             queryset = Locker.objects.filter(location = loc)
             serializer = LockerSerializer(queryset,many = True)
@@ -36,10 +38,10 @@ def LockerList(request,format = None):
                 #print('here')
                 raise exceptions.ParseError("not enable data")
 
-            if(request.data['studentID']== null or request.data['location']== null or request.data['row']== null or request.data['column']== null ):
+            if(request.data['studentID']== None or request.data['location']==  None or request.data['row']== None or request.data['column']== None ):
                 raise exceptions.ParseError("not enable data")
 
-            print('post on')
+            #print('post on')
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status = status.HTTP_201_CREATED)
