@@ -61,7 +61,7 @@ def LockerList(request,format = None):
                 if(Locker.objects.filter(studentID = session_funcs().get(request)).exists()):
                     myLock = Locker.objects.get(studentID = session_funcs().get(request))
                     ret['myLocker'] = ({"location":myLock.location,"row":myLock.row,"column":myLock.column})
-                    print(my_data)
+                    #print(my_data)
                 else:
                     ret['myLocker'] = None
             else:
