@@ -22,7 +22,7 @@ class NetworkMananger {
     print('StatusCode : $statusCode, 작업 성공');
     print('Response Data : $responseData');
 
-    return;
+    return responseData;
   }
 
   Future<dynamic> post(String url, dynamic data) async {
