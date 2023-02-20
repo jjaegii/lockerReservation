@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/snum_prv.dart';
-import 'package:locker_reservation_system/user_service/login.dart';
-import 'package:locker_reservation_system/user_service/signup.dart';
+// import 'package:locker_reservation_system/user_service/login.dart';
+// import 'package:locker_reservation_system/user_service/signup.dart';
 
 // 상단 바 부분
 
@@ -88,7 +88,7 @@ class _NavBarState extends State<NavBar> {
                       ),
                       TextButton(
                           onPressed: () {
-                            String nextPage = '/signup';
+                            String nextPage = '/register';
                             MyRouter.router.navigateTo(context, nextPage);
                             // Navigator.push(
                             //     context,
