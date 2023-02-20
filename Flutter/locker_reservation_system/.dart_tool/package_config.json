@@ -44,6 +44,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "fluro",
+      "rootUri": "file:///Users/seunggyun-jeong/.pub-cache/hosted/pub.dev/fluro-1.7.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/seunggyun-jeong/development/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -164,7 +170,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-02-17T06:38:07.117115Z",
+  "generated": "2023-02-20T02:10:22.230281Z",
   "generator": "pub",
   "generatorVersion": "2.19.2"
 }
