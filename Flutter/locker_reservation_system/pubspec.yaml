@@ -67,6 +67,9 @@ flutter:
     - images/214.png
     - images/219_front.png
     - images/219_next.png
+    - images/redCase.png
+    - images/greyCase.png
+    - images/blueCase.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
