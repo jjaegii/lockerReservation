@@ -3,6 +3,9 @@ from rest_framework.decorators import api_view
 from rest_framework import exceptions
 from rest_framework import status
 
+import json
+from collections import OrderedDict
+
 from .models import Locker
 from .serializers import LockerSerializer,LockerCreateSerializer
 from lockerReservation.session import session_funcs
@@ -43,11 +46,18 @@ def LockerList(request,format = None):
             elif(loc == 'e'):
                 rows = 5
                 columns = 22
+                
+            ret = OrderedDict()
+            ret['rows'] = rows
+            ret['columns'] = columns
             
-            #{"rows":rows,"columns":columns,serializer.data}
-            #print(serializer.data)
-            return Response(serializer.data,status = status.HTTP_200_OK) 
-
+            db_data = []
+            for data in serializer.data:
+                db_data.append(data)
+            ret['lockers'] = db_data
+            #return Response(serializer.data,status = status.HTTP_200_OK) 
+            return Response(ret,status = status.HTTP_200_OK) 
+            
         elif request.method == 'POST':  # 사물함 예약
             #print(request)
             serializer = LockerCreateSerializer(data = request.data)
