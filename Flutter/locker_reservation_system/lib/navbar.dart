@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
-import 'package:locker_reservation_system/providers/snum_prv.dart';
+import 'package:locker_reservation_system/providers/sid_prv.dart';
 // import 'package:locker_reservation_system/user_service/login.dart';
 // import 'package:locker_reservation_system/user_service/signup.dart';
 
@@ -20,11 +20,11 @@ class NavBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  late SnumProvider _snumProvider;
+  late SidProvider _sidProvider;
 
   @override
   Widget build(BuildContext context) {
-    _snumProvider = Provider.of<SnumProvider>(context);
+    _sidProvider = Provider.of<SidProvider>(context);
 
     return AppBar(
       backgroundColor: Color(0xff0D3F7A),
@@ -35,14 +35,14 @@ class _NavBarState extends State<NavBar> {
       ),
       centerTitle: true,
       actions: [
-        Consumer<SnumProvider>(
-            builder: (context, snumProvider, child) => Visibility(
-                  visible: Provider.of<SnumProvider>(context).isLogin,
+        Consumer<SidProvider>(
+            builder: (context, sidProvider, child) => Visibility(
+                  visible: Provider.of<SidProvider>(context).isLogin,
                   child: Row(
                     children: [
                       Center(
                         child: Text(
-                          '${Provider.of<SnumProvider>(context).snum}님 환영합니다.',
+                          '${Provider.of<SidProvider>(context).sid}님 환영합니다.',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -53,7 +53,7 @@ class _NavBarState extends State<NavBar> {
                           onPressed: () {
                             String nextPage = '/';
                             MyRouter.router.navigateTo(context, nextPage);
-                            _snumProvider.logout();
+                            _sidProvider.logout();
                           },
                           child: Text(
                             '로그아웃',
@@ -65,9 +65,9 @@ class _NavBarState extends State<NavBar> {
                     ],
                   ),
                 )),
-        Consumer<SnumProvider>(
-            builder: (context, snumProvider, child) => Visibility(
-                  visible: !Provider.of<SnumProvider>(context).isLogin,
+        Consumer<SidProvider>(
+            builder: (context, sidProvider, child) => Visibility(
+                  visible: !Provider.of<SidProvider>(context).isLogin,
                   child: Row(
                     children: [
                       TextButton(

@@ -2,7 +2,7 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:locker_reservation_system/providers/snum_prv.dart';
+import 'package:locker_reservation_system/providers/sid_prv.dart';
 import 'package:locker_reservation_system/network/network.dart';
 
 class ReservationMain extends StatefulWidget {
