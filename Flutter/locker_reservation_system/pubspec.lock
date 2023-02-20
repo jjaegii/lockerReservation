@@ -61,10 +61,10 @@ packages:
     dependency: "direct main"
     description:
       name: fluro
-      sha256: d4026ca39fd964d9d458f7ca3a904754d565f0a5c66989f67e9347d570016d56
+      sha256: "24d07d0b285b213ec2045b83e85d076185fa5c23651e44dae0ac6755784b97d0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.8"
+    version: "2.0.5"
   flutter:
     dependency: "direct main"
     description: flutter
