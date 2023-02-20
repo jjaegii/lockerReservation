@@ -1,8 +1,0 @@
-2023/02/20-15:30:45.575 5c04 Reusing MANIFEST C:\Users\WJY\AppData\Local\Temp\flutter_tools.cd7376c\flutter_tools_chrome_device.66321338\Default\shared_proto_db/MANIFEST-000001
-2023/02/20-15:30:45.578 5c04 Recovering log #3
-2023/02/20-15:30:45.579 5c04 Level-0 table #3: started
-2023/02/20-15:30:45.641 5c04 Level-0 table #3: 128672 bytes OK
-2023/02/20-15:30:45.659 5c04 Recovering log #4
-2023/02/20-15:30:45.660 5c04 Reusing old log C:\Users\WJY\AppData\Local\Temp\flutter_tools.cd7376c\flutter_tools_chrome_device.66321338\Default\shared_proto_db/000004.log 
-2023/02/20-15:30:45.678 5c04 Delete type=0 #3
-2023/02/20-15:30:45.680 5c04 Delete type=2 #5
