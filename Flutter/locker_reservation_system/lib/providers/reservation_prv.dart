@@ -22,7 +22,7 @@ class ReservationProvider with ChangeNotifier {
 
   // 모델을 가지고 있음
   // 모델 초기화
-  ReservationModel revModel = ReservationModel(rows: 0, columns: 0, lockers: Lockers(location: 'z', row: 0, column: 0));
+  ReservationModel revModel = ReservationModel(rows: 0, columns: 0, lockers: []);
 
   // 예약 관련 메서드
   void selectRoom(int roomIndex) {
@@ -32,8 +32,9 @@ class ReservationProvider with ChangeNotifier {
 
   void getLockers(int index) async {
     String url = getLockersURL + roomCodeList[index];
-    var rawData = await nm.get(url);
-    print('rawData : $rawData');
+    var jsonData = await nm.get(url);
+    revModel = ReservationModel.fromJson(jsonData);
+    print('revModel: ${revModel.lockers.first.row}');
 
     notifyListeners();
   }
