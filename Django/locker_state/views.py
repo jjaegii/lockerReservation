@@ -5,6 +5,7 @@ from rest_framework import status
 
 from .models import Locker
 from .serializers import LockerSerializer,LockerCreateSerializer
+from lockerReservation.session import session_funcs
 
 # Create your views here.
 
@@ -12,21 +13,26 @@ from .serializers import LockerSerializer,LockerCreateSerializer
 @api_view(['GET','POST'])
 def LockerList(request,format = None):
     try:
-        if request.method == 'GET':
-            loc = request.GET['location']
-            if len(loc) > 1 :
-                raise exceptions.ParseError("not enable data")
+        if request.method == 'GET':  # 사물함 조회 (파라미터는 location)
+            loc = request.GET['location'] 
+            if len(loc) > 1 : 
+                raise exceptions.ParseError("not enable data") 
             #print(loc) 
-            queryset = Locker.objects.filter(location = loc)
-            serializer = LockerSerializer(queryset,many = True)
-            return Response(serializer.data)
+            queryset = Locker.objects.filter(location = loc) 
+            serializer = LockerSerializer(queryset,many = True) 
+            return Response(serializer.data) 
 
-        elif request.method == 'POST':
+        elif request.method == 'POST':  # 사물함 예약
             #print(request)
             serializer = LockerCreateSerializer(data = request.data)
-            if Locker.objects.filter(**request.data).exists():
-                raise serializers.ValidationError('This data already exists')
-
+            if request.data['studentID']!=session_funcs().get(request):  # 세션 확인 (이거 studentID 보내기 힘들면 없애고 그냥 세션에서 받아올예정)
+                raise serializers.ValidationError('studentID error')
+            
+            if Locker.objects.filter(**request.data).exists(): # 예약 취소 (중복일때)
+                lk = Locker.objects.get(studentID = request.data['studentID'])
+                lk.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            
             if Locker.objects.filter(location = request.data['location'], row = request.data['row'], column =  request.data['column'] ).exists():
                 raise serializers.ValidationError('location is already use')
 
