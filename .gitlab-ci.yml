@@ -35,5 +35,5 @@ deploy:
   script:
     - docker container ls -a
     - docker container rm -f $CON_NAME
-    - docker run -d -p 8001:8001 --name $CON_NAME --restart always $IMAGE_NAME
+    - docker run -d -p 8000:8000 --name $CON_NAME --restart always $IMAGE_NAME
     - docker container ls -a
