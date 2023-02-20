@@ -10,7 +10,7 @@ class MyRouter {
 
   static const String main = '/';
   static const String login = '/login';
-  static const String signup = '/signup';
+  static const String register = '/register';
 
   /*
     핸들러
@@ -24,7 +24,7 @@ class MyRouter {
   static final Handler _loginPageHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           LoginPage());
-  static final Handler _signUpPageHandler = Handler(
+  static final Handler _registerPageHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           SignUpPage());
 
@@ -33,7 +33,7 @@ class MyRouter {
         handler: _homePageHandler, transitionType: TransitionType.fadeIn);
     router.define(login,
         handler: _loginPageHandler, transitionType: TransitionType.fadeIn);
-    router.define(signup,
-        handler: _signUpPageHandler, transitionType: TransitionType.fadeIn);
+    router.define(register,
+        handler: _registerPageHandler, transitionType: TransitionType.fadeIn);
   }
 }
