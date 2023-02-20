@@ -2,7 +2,7 @@ import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:locker_reservation_system/providers/snum_prv.dart';
+import 'package:locker_reservation_system/providers/reservation_prv.dart';
 
 class SideNav extends StatelessWidget {
   // Room Number List
@@ -23,13 +23,14 @@ class SideNav extends StatelessWidget {
     "images/219_front.png",
     "images/219_next.png"
   ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Image.asset(
-          imageList[context.watch<SnumProvider>().roomState],
+          imageList[context.watch<ReservationProvider>().roomState],
           width: 250,
           height: 250,
         ),
@@ -40,11 +41,14 @@ class SideNav extends StatelessWidget {
 }
 
 Widget roomButton(String roomName, int index, BuildContext context) {
+  ReservationProvider reservationProvider = ReservationProvider();
+
   return ElevatedButton(
     child: Text(roomName),
     onPressed: () {
-      context.read<SnumProvider>().selectRoom(index);
+      context.read<ReservationProvider>().selectRoom(index);
       print("$roomName 번 방을 선택하셨습니다.");
+      reservationProvider.getLockers(index);
     },
   );
 }

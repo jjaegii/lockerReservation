@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'locker_state',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,3 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_EXPIRE_SECONDS = 1800  # 30 minutes
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+
+CORS_ORIGIN_WHITELIST = ['http://*']
+CORS_ALLOW_CREDENTIALS = True

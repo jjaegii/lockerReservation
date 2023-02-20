@@ -10,27 +10,30 @@ class MyRouter {
 
   static const String main = '/';
   static const String login = '/login';
-  static const String signup = '/signup';
+  static const String register = '/register';
 
   /*
     핸들러
    */
   // 메인 페이지 핸들러 - 파라미터 수정 필요
   static final Handler _homePageHandler = Handler(
-      handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           MainPage(
             title: '사물함 예약 시스템',
           ));
   static final Handler _loginPageHandler = Handler(
-      handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           LoginPage());
-  static final Handler _signUpPageHandler = Handler(
-      handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
+  static final Handler _registerPageHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           SignUpPage());
 
   static void setupRouters() {
-    router.define(main, handler: _homePageHandler, transitionType: TransitionType.fadeIn);
-    router.define(login, handler: _loginPageHandler, transitionType: TransitionType.fadeIn);
-    router.define(signup, handler: _signUpPageHandler, transitionType: TransitionType.fadeIn);
+    router.define(main,
+        handler: _homePageHandler, transitionType: TransitionType.fadeIn);
+    router.define(login,
+        handler: _loginPageHandler, transitionType: TransitionType.fadeIn);
+    router.define(register,
+        handler: _registerPageHandler, transitionType: TransitionType.fadeIn);
   }
 }
