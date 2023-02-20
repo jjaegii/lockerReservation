@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => SnumProvider()),
-      ChangeNotifierProvider(create: (context) => ResrvationProvider()),
+      ChangeNotifierProvider(create: (context) => ReservationProvider()),
       ],
       child: MaterialApp(
       title: 'Locker Reservation Service',
