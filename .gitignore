@@ -5,3 +5,5 @@ __pycache__/
 Django/venv/
 .DS_Store
 Django/db.sqlite3
+
+package_config.json
