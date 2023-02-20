@@ -5,3 +5,10 @@ __pycache__/
 Django/venv/
 .DS_Store
 Django/db.sqlite3
+
+# 자꾸 지혼자 변하는 파일
+package_config.json
+Flutter/locker_reservation_system/.dart_tool/package_config.json
+Flutter/locker_reservation_system/.dart_tool/package_config_subset
+.dart_tool/package_config.json
+Flutter/locker_reservation_system/.dart_tool
