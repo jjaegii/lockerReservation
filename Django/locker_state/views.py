@@ -60,16 +60,14 @@ def LockerList(request,format = None):
             if(session_funcs().get(request)!=None):
                 if(Locker.objects.filter(studentID = session_funcs().get(request)).exists()):
                     myLock = Locker.objects.get(studentID = session_funcs().get(request))
-                    my_data.append({"location":myLock.location,"row":myLock.row,"column":myLock.column})
-                    #my_data.append({"row":myLock.row})
-                    #my_data.append({"column":myLock.column})
+                    ret['myLocker'] = ({"location":myLock.location,"row":myLock.row,"column":myLock.column})
                     print(my_data)
                 else:
-                    my_data.append(None)
+                    ret['myLocker'] = None
             else:
-                my_data.append(None)
+                ret['myLocker'] = None
             
-            ret['myLocker'] = my_data
+            #ret['myLocker'] = my_data
             
             for data in serializer.data:
                 db_data.append(data)
