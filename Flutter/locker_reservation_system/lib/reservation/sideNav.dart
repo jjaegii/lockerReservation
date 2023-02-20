@@ -3,6 +3,7 @@ import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/snum_prv.dart';
+import 'package:locker_reservation_system/reservation/network.dart';
 
 class SideNav extends StatelessWidget {
   // Room Number List
@@ -23,6 +24,7 @@ class SideNav extends StatelessWidget {
     "images/219_front.png",
     "images/219_next.png"
   ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,11 +42,14 @@ class SideNav extends StatelessWidget {
 }
 
 Widget roomButton(String roomName, int index, BuildContext context) {
+  NetworkMananger nm = NetworkMananger();
+
   return ElevatedButton(
     child: Text(roomName),
     onPressed: () {
       context.read<SnumProvider>().selectRoom(index);
       print("$roomName 번 방을 선택하셨습니다.");
+      nm.get("http://180.189.89.108:8000/state?location=a");
     },
   );
 }
