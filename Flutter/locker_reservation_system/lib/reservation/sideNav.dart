@@ -2,7 +2,7 @@ import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:locker_reservation_system/providers/snum_prv.dart';
+import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/network/network.dart';
 
 class SideNav extends StatelessWidget {
@@ -31,7 +31,7 @@ class SideNav extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Image.asset(
-          imageList[context.watch<SnumProvider>().roomState],
+          imageList[context.watch<ResrvationProvider>().roomState],
           width: 250,
           height: 250,
         ),
@@ -47,7 +47,7 @@ Widget roomButton(String roomName, int index, BuildContext context) {
   return ElevatedButton(
     child: Text(roomName),
     onPressed: () {
-      context.read<SnumProvider>().selectRoom(index);
+      context.read<ResrvationProvider>().selectRoom(index);
       print("$roomName 번 방을 선택하셨습니다.");
       nm.get("http://180.189.89.108:8000/state?location=a");
     },

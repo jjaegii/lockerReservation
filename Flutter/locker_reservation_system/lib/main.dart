@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:locker_reservation_system/reservation/reservationMain.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/snum_prv.dart';
+import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/reservation/sideNav.dart';
 
@@ -15,15 +17,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SnumProvider(),
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => SnumProvider()),
+      ChangeNotifierProvider(create: (context) => ResrvationProvider()),
+      ],
       child: MaterialApp(
-        title: 'Locker Reservation Service',
-        onGenerateRoute: MyRouter.router.generator,
-        initialRoute: '/',
-        home: MainPage(title: '사물함 예약 시스템'),
+      title: 'Locker Reservation Service',
+      onGenerateRoute: MyRouter.router.generator,
+      initialRoute: '/',
+      home: MainPage(title: '사물함 예약 시스템'),
       ),
     );
+
   }
 }
 
@@ -49,6 +54,7 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             SideNav(),
+            ReservationMain(),
             const Text(
               'You have pushed the button this many times:',
             ),
