@@ -13,6 +13,7 @@ from lockerReservation.session import session_funcs
 @api_view(['GET','POST'])
 def LockerList(request,format = None):
     err = ""
+    stcode = status.status.HTTP_404_NOT_FOUND
     try:
         if request.method == 'GET':  # 사물함 조회 (파라미터는 location)
             loc = request.GET['location'] 
@@ -29,19 +30,22 @@ def LockerList(request,format = None):
             serializer = LockerCreateSerializer(data = request.data)
             if request.data['studentID']!=session_funcs().get(request):  # 세션 확인 (이거 studentID 보내기 힘들면 없애고 그냥 세션에서 받아올예정)
                 err = "studentID error"
+                stcode = status.status.HTTP_401_UNAUTHORIZED
                 raise serializers.ValidationError('studentID error')
             
             if Locker.objects.filter(**request.data).exists(): # 예약 취소 (중복일때)
                 lk = Locker.objects.get(studentID = request.data['studentID'])
                 lk.delete()
-                return Response(status=status.status.HTTP_200_OK)
+                return Response(status=status.status.HTTP_201_CREATED)
             
             if Locker.objects.filter(location = request.data['location'], row = request.data['row'], column =  request.data['column'] ).exists():  # 사용중인 사물함 예약
                 err = "location is already use"
+                stcode = status.status.HTTP_409_CONFLICT
                 raise serializers.ValidationError('location is already use')
 
             if Locker.objects.filter(studentID = request.data['studentID']).exists():  # 이미 예약한 사람이 다른곳에 예약 시도시 발생
                 err = "This student already reservation"
+                stcode = status.status.HTTP_409_CONFLICT
                 raise serializers.ValidationError('This data already exists')
             
 
@@ -58,6 +62,6 @@ def LockerList(request,format = None):
                 serializer.save()
                 return Response(serializer.data, status = status.HTTP_201_CREATED)
     except:
-        return Response({"error":err},status=status.HTTP_404_NOT_FOUND)
+        return Response({"error":err},status=stcode)
     #return Response(status=status.HTTP_404_NOT_FOUND)
         
