@@ -46,6 +46,10 @@ def LockerList(request,format = None):
             elif(loc == 'e'):
                 rows = 5
                 columns = 22
+            
+            else:
+                err = "not enable data"
+                raise exceptions.ParseError("not enable data")
                 
             ret = OrderedDict()
             ret['rows'] = rows
