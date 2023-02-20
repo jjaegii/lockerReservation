@@ -5,7 +5,6 @@ stages:
 variables:
   IMAGE_NAME: django_api_img
   CON_NAME: django_api_con
-  DOCKER_HOST: tcp://host.docker.internal:2375
   # DOCKER_DRIVER: overlay2
   # DOCKER_TLS_CERTDIR: "/certs"
   # DOCKER_TLS_CERTDIR: ""
@@ -20,7 +19,7 @@ build:
     - docker:dind
   script:
     # - "docker login -u \"${CI_REGISTRY_USER}\" -p \"${CI_REGISTRY_PASSWORD}\" \"${CI_REGISTRY}\""
-    - ls -al
+    - cd Django
     - docker container ls -a
     - docker build . -t $IMAGE_NAME
     # - docker push $IMAGE_NAME
@@ -36,5 +35,5 @@ deploy:
   script:
     - docker container ls -a
     - docker container rm -f $CON_NAME
-    - docker run -d -p 8090:8090 --name $CON_NAME --restart always $IMAGE_NAME
+    - docker run -d -p 8001:8001 --name $CON_NAME --restart always $IMAGE_NAME
     - docker container ls -a
