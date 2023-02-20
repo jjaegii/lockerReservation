@@ -3,7 +3,7 @@ import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/snum_prv.dart';
-import 'package:locker_reservation_system/reservation/network.dart';
+import 'package:locker_reservation_system/network/network.dart';
 
 class SideNav extends StatelessWidget {
   // Room Number List
