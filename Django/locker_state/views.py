@@ -21,7 +21,7 @@ def LockerList(request,format = None):
         if request.method == 'GET':  # 사물함 조회 (파라미터는 location)
             loc = request.GET['location'] 
             if len(loc) > 1 : 
-                err = "not enable data"
+                err = "not enable data" 
                 raise exceptions.ParseError("not enable data") 
             #print(loc) 
             queryset = Locker.objects.filter(location = loc) 
@@ -54,10 +54,24 @@ def LockerList(request,format = None):
             ret = OrderedDict()
             ret['rows'] = rows
             ret['columns'] = columns
-            
+            my_data = []
             db_data = []
+            
+            if(session_funcs().get(request)!=None):
+                if(Locker.objects.filter(studentID = session_funcs().get(request)).exists()):
+                    myLock = Locker.objects.get(studentID = session_funcs().get(request))
+                    ret['myLocker'] = ({"location":myLock.location,"row":myLock.row,"column":myLock.column})
+                    #print(my_data)
+                else:
+                    ret['myLocker'] = None
+            else:
+                ret['myLocker'] = None
+            
+            #ret['myLocker'] = my_data
+            
             for data in serializer.data:
                 db_data.append(data)
+                
             ret['lockers'] = db_data
             #return Response(serializer.data,status = status.HTTP_200_OK) 
             return Response(ret,status = status.HTTP_200_OK) 
