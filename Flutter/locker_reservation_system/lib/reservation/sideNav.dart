@@ -41,14 +41,12 @@ class SideNav extends StatelessWidget {
 }
 
 Widget roomButton(String roomName, int index, BuildContext context) {
-  ReservationProvider reservationProvider = ReservationProvider();
-
   return ElevatedButton(
     child: Text(roomName),
     onPressed: () {
       context.read<ReservationProvider>().selectRoom(index);
       print("$roomName 번 방을 선택하셨습니다.");
-      reservationProvider.getLockers(index);
+      context.read<ReservationProvider>().getLockers(index);
     },
   );
 }

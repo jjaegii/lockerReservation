@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/network/model/reservation_model.dart';
 import 'package:locker_reservation_system/network/network.dart';
@@ -8,21 +10,17 @@ class ReservationProvider with ChangeNotifier {
   int get roomState => _roomState;
 
   // roomCode
-  List<String> roomCodeList = [
-    'a',
-    'b',
-    'c',
-    'd',
-    'e'
-  ];
+  List<String> roomCodeList = ['a', 'b', 'c', 'd', 'e'];
 
   // NetworkMananger
   NetworkMananger nm = NetworkMananger();
   String getLockersURL = 'http://180.189.89.108:8000/state?location=';
+  String reserveURL = "http://180.189.89.108:8000/state";
 
   // 모델을 가지고 있음
   // 모델 초기화
-  ReservationModel revModel = ReservationModel(rows: 0, columns: 0, lockers: []);
+  ReservationModel revModel =
+      ReservationModel(rows: 0, columns: 0, myLocker: null, lockers: []);
 
   // 예약 관련 메서드
   void selectRoom(int roomIndex) {
@@ -37,5 +35,28 @@ class ReservationProvider with ChangeNotifier {
     print('revModel: ${revModel.lockers.first.row}');
 
     notifyListeners();
+  }
+
+  void reserveLocker(String stdID, String loc, int row, int column) async {
+    var returnStatusCode = await nm.post(
+        reserveURL,
+        json.encode({
+          "studentID": stdID,
+          "location": loc,
+          "row": row,
+          "column": column
+        }));
+
+    print("예약하기 StatusCode : $returnStatusCode");
+
+    if (returnStatusCode == 201) {
+      print("예약 성공!");
+    } else if (returnStatusCode == 401) {
+      print("잘못된 요청");
+    } else if (returnStatusCode == 409) {
+      print("이미 사용중인 사물함 입니다.");
+    } else {
+      print("작업 실패");
+    }
   }
 }
