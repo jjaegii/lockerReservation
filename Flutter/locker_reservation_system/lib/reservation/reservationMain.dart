@@ -17,9 +17,13 @@ class ReservationMain extends StatefulWidget {
 class _ReservationMainState extends State<ReservationMain> {
   @override
   Widget build(BuildContext context) {
-    var colCount = context.watch<ReservationProvider>().revModel.columns;
-    var rowCount = context.watch<ReservationProvider>().revModel.rows;
-    List<Lockers> lockerList =
+    int colCount = context.watch<ReservationProvider>().revModel.columns;
+    int rowCount = context.watch<ReservationProvider>().revModel.rows;
+    int nowRoomState = context.watch<ReservationProvider>().roomState;
+    String loc =
+        context.watch<ReservationProvider>().roomCodeList[nowRoomState];
+
+    List<Locker> lockerList =
         context.watch<ReservationProvider>().revModel.lockers;
     return Center(
       child: Column(
@@ -29,7 +33,8 @@ class _ReservationMainState extends State<ReservationMain> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                for (int j = 0; j < colCount; j++) caseButton(i, j),
+                for (int j = 0; j < colCount; j++)
+                  caseButton(i, j, loc, context),
               ],
             ),
         ],
@@ -38,7 +43,7 @@ class _ReservationMainState extends State<ReservationMain> {
   }
 }
 
-Widget caseButton(int row, int column) {
+Widget caseButton(int row, int column, String loc, BuildContext context) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(0, 0, 0, 0),
@@ -49,6 +54,9 @@ Widget caseButton(int row, int column) {
       height: 50,
     ),
     onPressed: () {
+      context
+          .read<ReservationProvider>()
+          .reserveLocker("21812096", loc, row, column);
       print("행 : $row, 열: $column");
     },
   );

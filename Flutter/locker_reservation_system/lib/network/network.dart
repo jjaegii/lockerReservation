@@ -27,15 +27,14 @@ class NetworkMananger {
 
   Future<dynamic> post(String url, dynamic data) async {
     print('post() url: $url');
-    http.Response response = await http.post(Uri.parse(url),
-        body: json.encode(data), headers: headers);
+    http.Response response =
+        await http.post(Uri.parse(url), body: data, headers: headers);
+
     final int statusCode = response.statusCode;
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      print("statusCode : $statusCode, 작업 실패");
-      return;
-    }
     var responseData = json.decode(utf8.decode(response.bodyBytes));
     print('StatusCode : $statusCode, 작업 성공');
     print('Response Data : $responseData');
+
+    return statusCode;
   }
 }
