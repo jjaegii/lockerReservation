@@ -17,18 +17,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => SnumProvider()),
-      ChangeNotifierProvider(create: (context) => ReservationProvider()),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SnumProvider()),
+        ChangeNotifierProvider(create: (context) => ReservationProvider()),
       ],
       child: MaterialApp(
-      title: 'Locker Reservation Service',
-      onGenerateRoute: MyRouter.router.generator,
-      initialRoute: '/',
-      home: MainPage(title: '사물함 예약 시스템'),
+        title: 'Locker Reservation Service',
+        onGenerateRoute: MyRouter.router.generator,
+        initialRoute: '/',
+        home: MainPage(title: '사물함 예약 시스템'),
       ),
     );
-
   }
 }
 
@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
             SideNav(),
             ReservationMain(),
             const Text(
-              'You have pushed the button this many times:',
+              '.',
             ),
           ],
         ),
