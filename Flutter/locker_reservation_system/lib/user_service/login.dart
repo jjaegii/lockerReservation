@@ -26,18 +26,23 @@ class _LoginPageState extends State<LoginPage> {
   bool _isPwNull = false;
   bool _isPwError = false;
 
-  // bool isSidNull(String sid) {
-  //   if (sid.isEmpty) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-  // bool isPasswordNull(String pw) {
-  //   if (pw.isEmpty) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  void _showLoginErrorDialog(BuildContext context, String caution) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(caution),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('확인'))
+            ],
+          );
+        });
+  }
 
   OutlineInputBorder borderMaker(Color color) {
     return OutlineInputBorder(
@@ -101,28 +106,37 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           _sid = _sidController.text;
                           _sid.isEmpty ? _isSidNull = true : _isSidNull = false;
-                          _sid.length == 8 ? _isSidEight = true : _isSidEight = false;
+                          _sid.length == 8
+                              ? _isSidEight = true
+                              : _isSidEight = false;
                           _pw = _pwController.text;
                           _pw.isEmpty ? _isPwNull = true : _isPwNull = false;
                         });
                         if (!_isSidNull & !_isPwNull) {
-                          bool ok = await _sidProvider.login(_sid, _pw);
-                          // print('login.dart -> sidProvider.isLogin : ${_sidProvider.isLogin}');
-                          if (ok) {
+                          int status = await _sidProvider.login(_sid, _pw);
+                          if (status == 200) {
+                            // 로그인 성공
                             String nextPage = '/';
                             MyRouter.router.navigateTo(context, nextPage);
+                          } else {
+                            // 로그인 실패 시 팝업창 띄우기
+                            String caution;
+                            if (status == 401) {
+                              caution = "학번과 비밀번호를 확인하세요.";
+                            } else if (status == 404) {
+                              caution = "존재하지 않는 학번입니다.";
+                            } else {
+                              caution = "로그인 할 수 없습니다.";
+                            }
+                            _showLoginErrorDialog(context, caution);
                           }
                         }
                       },
                       child: Text('로그인')),
-                  // Text(_snum),
-                  // Text(_pw),
                   ElevatedButton(
                       onPressed: () {
-                        // NetworkMananger().get("http://180.189.89.108:8000/");
                         String nextPage = '/';
                         MyRouter.router.navigateTo(context, nextPage);
-                        // Navigator.pop(context);
                       },
                       child: Text('뒤로가기')),
                 ],

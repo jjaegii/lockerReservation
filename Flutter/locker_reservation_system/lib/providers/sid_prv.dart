@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/network/network.dart';
 
@@ -21,22 +22,22 @@ class SidProvider with ChangeNotifier {
   //   return true;
   // }
 
-  Future<bool> login(String sid, String pw) async {
+  Future<int> login(String sid, String pw) async {
     var returnValue = await NetworkMananger().post(
         "http://180.189.89.108:8000/login",
         json.encode({'studentID': sid, 'password': pw}));
-    // print(returnValue);
-    if (returnValue == true) {
+    if (returnValue == 200) {
       this.sid = sid;
       isLogin = true;
-    } else {
-      this.sid = '';
-      isLogin = false;
-      return false;
+      notifyListeners();
     }
-    // print('isLogin: $isLogin');
-    notifyListeners();
-    return true;
+    // else {
+    //   this.sid = '';
+    //   isLogin = false;
+    //   return returnValue;
+    // }
+    
+    return returnValue;
   }
 
   void logout() async {
