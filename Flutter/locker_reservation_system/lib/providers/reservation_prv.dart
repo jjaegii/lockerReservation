@@ -9,6 +9,9 @@ class ReservationProvider with ChangeNotifier {
   int _roomState = 0;
   int get roomState => _roomState;
 
+  int _visitor = 0;
+  int get visitor => _visitor;
+
   // roomCode
   List<String> roomCodeList = ['a', 'b', 'c', 'd', 'e'];
 
@@ -34,6 +37,13 @@ class ReservationProvider with ChangeNotifier {
     revModel = ReservationModel.fromJson(jsonData);
     print('revModel: ${revModel.lockers.first.row}');
 
+    notifyListeners();
+  }
+
+  void setVisitor() {
+    if (visitor < revModel.lockers.length - 1) {
+      _visitor++;
+    }
     notifyListeners();
   }
 
