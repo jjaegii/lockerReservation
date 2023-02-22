@@ -44,12 +44,35 @@ class _ReservationMainState extends State<ReservationMain> {
 }
 
 Widget caseButton(int row, int column, String loc, BuildContext context) {
+  // Locker 정보 불러오기
+  Locker? myLocker = context.watch<ReservationProvider>().revModel.myLocker;
+  List<Locker> lockerList =
+      context.watch<ReservationProvider>().revModel.lockers;
+
+  // 해당 값에 따른 색상 지정
+  List<String> caseColorList = [
+    "images/blueCase.png",
+    "images/greyCase.png",
+    "images/redCase.png",
+  ];
+  int colorPicker = 0;
+  int visitor = context.watch<ReservationProvider>().visitor;
+
+  if (myLocker != null && myLocker.column == column && myLocker.row == row) {
+    colorPicker = 2;
+  }
+
+  if (lockerList[visitor].column == column && lockerList[visitor].row == row) {
+    colorPicker = 1;
+    context.read<ReservationProvider>().setVisitor();
+  }
+
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(0, 0, 0, 0),
         shadowColor: Color.fromARGB(0, 0, 0, 0)),
     child: Image.asset(
-      "images/blueCase.png",
+      caseColorList[colorPicker],
       width: 50,
       height: 50,
     ),
