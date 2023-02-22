@@ -41,9 +41,13 @@ class ReservationProvider with ChangeNotifier {
   }
 
   void setVisitor() {
-    if (visitor < revModel.lockers.length - 1) {
+    if (visitor < revModel.lockers.length) {
       _visitor++;
     }
+    if (visitor == revModel.lockers.length) {
+      _visitor = 0;
+    }
+    print("현재 비지터 : $visitor");
     notifyListeners();
   }
 

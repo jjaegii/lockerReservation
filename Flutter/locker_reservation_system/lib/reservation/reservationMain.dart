@@ -44,6 +44,8 @@ class _ReservationMainState extends State<ReservationMain> {
 }
 
 Widget caseButton(int row, int column, String loc, BuildContext context) {
+  // 학번 정보
+  String sid = context.watch<SidProvider>().sid;
   // Locker 정보 불러오기
   Locker? myLocker = context.watch<ReservationProvider>().revModel.myLocker;
   List<Locker> lockerList =
@@ -77,9 +79,7 @@ Widget caseButton(int row, int column, String loc, BuildContext context) {
       height: 50,
     ),
     onPressed: () {
-      context
-          .read<ReservationProvider>()
-          .reserveLocker("21812096", loc, row, column);
+      context.read<ReservationProvider>().reserveLocker(sid, loc, row, column);
       print("행 : $row, 열: $column");
     },
   );
