@@ -35,16 +35,18 @@ class ReservationProvider with ChangeNotifier {
     String url = getLockersURL + roomCodeList[index];
     var jsonData = await nm.get(url);
     revModel = ReservationModel.fromJson(jsonData);
-    print('revModel: ${revModel.lockers.first.row}');
+    print('revModel Count: ${revModel.lockers.length}');
 
     notifyListeners();
   }
 
   void setVisitor() {
-    if (visitor < revModel.lockers.length - 1) {
+    if (visitor < revModel.lockers.length) {
       _visitor++;
     }
-    notifyListeners();
+    if (visitor == revModel.lockers.length) {
+      _visitor = 0;
+    }
   }
 
   void reserveLocker(String stdID, String loc, int row, int column) async {
