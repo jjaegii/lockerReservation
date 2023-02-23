@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout', views.logout_api),
     path('admin',admin.site.urls),
     path('cert',views.phone_api),
+    path('check',views.certcheck_api),
 ]
