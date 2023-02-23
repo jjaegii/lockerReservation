@@ -8,11 +8,11 @@ class session_funcs:
         self.fernet = Fernet(self.key)
 
     def get(self, request):
-        if 'studentID' not in request.session:
+        if 'studentID' not in request.COOKIES:
             return None
         else:
             # 복호화
-            crypted = bytes(request.session['studentID'], 'utf-8')
+            crypted = bytes(request.COOKIES['studentID'], 'utf-8')
             decrypt = self.fernet.decrypt(crypted)
             string = decrypt.decode('utf-8')
             return string[:8]
@@ -21,10 +21,5 @@ class session_funcs:
         # 암호화
         byte = bytes(studentID + str(randint(10000000, 99999999)), 'utf-8')
         crypt = self.fernet.encrypt(byte)
-        request.session['studentID'] = crypt.decode('utf-8')
-        return request
-
-    def delete(self, request):
-        if 'studentID' in request.session:
-            del request.session['studentID']
+        request.set_cookie('studentID', crypt.decode('utf-8'), max_age=1800)
         return request
