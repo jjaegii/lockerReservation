@@ -1,13 +1,16 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/reservation_prv.dart';
 
-class SideNav extends StatelessWidget {
+class SideNav extends StatefulWidget {
+  SideNav({super.key});
+
+  @override
+  State<SideNav> createState() => _SideNavState();
+}
+
+class _SideNavState extends State<SideNav> {
   // Room Number List
-  // 2023.02.16 하드코딩 상태
-  // 필요시 데이터베이스와 연결
   List<String> list = [
     "1층 113호 앞",
     "1층 114호 앞",
