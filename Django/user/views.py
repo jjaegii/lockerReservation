@@ -6,27 +6,31 @@ from rest_framework.parsers import JSONParser
 from user.models import User
 from lockerReservation.session import session_funcs
 from lockerReservation.phonecert import cert_funcs
+from user.serializers import CertSerializer
 
 from django.http import JsonResponse
 
 import random
 
 # 네이버 api 휴대폰 인증 기능
+
+
 @api_view(['POST'])
-def phone_api(request,format=None):
+def phone_api(request, format=None):
     try:
         if request.method == 'POST':
-            cnum = str(random.randrange(100000,999999))  # 인증번호 생성
+            cnum = str(random.randrange(100000, 999999))  # 인증번호 생성
             request.data['cert_number'] = cnum
             request.data['cert_status'] = False
             print(request.data)
-            serializer = CertSerializer(data = request.data)
+            serializer = CertSerializer(data=request.data)
             print(1)
             if serializer.is_valid():
                 serializer.save()
-            return Response({"status":"ok"},status=status.HTTP_200_OK)
+            return Response({"status": "ok"}, status=status.HTTP_200_OK)
     except:
         return Response({"error": ""}, status=status.HTTP_404_NOT_FOUND)
+
 
 '''
 class Auth(APIView):
