@@ -21,6 +21,7 @@ class ReservationMain extends StatelessWidget {
           for (int i = 0; i < rowCount; i++)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 for (int j = 0; j < colCount; j++)
                   caseButton(i, j, loc, colCount, nowRoomState, context),
@@ -90,7 +91,8 @@ Widget caseButton(int row, int column, String loc, int colCount,
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(0, 0, 0, 0),
-        shadowColor: Color.fromARGB(0, 0, 0, 0)),
+        shadowColor: Color.fromARGB(0, 0, 0, 0),
+        padding: EdgeInsets.all(0.0)),
     child: Image.asset(
       caseColorList[colorPicker],
       width: 50,
