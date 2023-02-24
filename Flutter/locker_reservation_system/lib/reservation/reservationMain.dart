@@ -26,6 +26,28 @@ class ReservationMain extends StatelessWidget {
                   caseButton(i, j, loc, colCount, nowRoomState, context),
               ],
             ),
+          Padding(padding: EdgeInsets.all(9.0)),
+          const Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(
+              text: '※ 참고 ※\n',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              children: <TextSpan>[
+                TextSpan(text: ' 빨간색 ', style: TextStyle(color: Colors.red)),
+                TextSpan(
+                    text: ': 내가 예약한 사물함\n',
+                    style: TextStyle(fontWeight: FontWeight.normal)),
+                TextSpan(text: ' 파란색 ', style: TextStyle(color: Colors.blue)),
+                TextSpan(
+                    text: ': 예약 가능한 사물함\n',
+                    style: TextStyle(fontWeight: FontWeight.normal)),
+                TextSpan(text: ' 회색 ', style: TextStyle(color: Colors.grey)),
+                TextSpan(
+                    text: ': 예약 불가능한 사물함\n',
+                    style: TextStyle(fontWeight: FontWeight.normal)),
+              ],
+            ),
+          ),
         ],
       ),
     );
