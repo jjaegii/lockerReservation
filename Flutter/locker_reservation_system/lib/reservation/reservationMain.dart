@@ -80,16 +80,29 @@ Widget caseButton(int row, int column, String loc, int colCount,
           barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
           builder: (BuildContext context) {
             return AlertDialog(
-              content: reserveTip(row, column, colCount, loc, nowRoomState),
+              content: colorPicker == 2
+                  ? cancelTip(row, column, colCount, loc, nowRoomState)
+                  : reserveTip(row, column, colCount, loc, nowRoomState),
               insetPadding: const EdgeInsets.fromLTRB(0, 80, 0, 80),
               actions: [
                 TextButton(
                   child: const Text('확인'),
-                  onPressed: () {
-                    context
+                  onPressed: () async {
+                    AlertDialog returnDialog = await context
                         .read<ReservationProvider>()
                         .reserveLocker(sid, loc, row, column);
                     Navigator.of(context).pop();
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          returnDialog.actions!.add(TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("확인")));
+                          return returnDialog;
+                        });
                   },
                 ),
                 TextButton(
@@ -117,4 +130,17 @@ Widget reserveTip(
   ];
   return Text(
       "${list[nowRoomState]}방의 ${(row * colCount) + column + 1}번 사물함을 선택하셨습니다.\n 이대로 예약을 진행하시겠습니까?");
+}
+
+Widget cancelTip(
+    int row, int column, int colCount, String loc, int nowRoomState) {
+  List<String> list = [
+    "1층 113호 앞",
+    "1층 114호 앞",
+    "2층 214호 앞",
+    "2층 219호 앞",
+    "2층 219호 옆"
+  ];
+  return Text(
+      "예약된 사물함 (${list[nowRoomState]}방/${(row * colCount) + column + 1}번 사물함)의 신청을 취소하겠습니까?");
 }

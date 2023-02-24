@@ -49,7 +49,9 @@ class ReservationProvider with ChangeNotifier {
     }
   }
 
-  void reserveLocker(String stdID, String loc, int row, int column) async {
+  Future<AlertDialog> reserveLocker(
+      String stdID, String loc, int row, int column) async {
+    String? message;
     var returnStatusCode = await nm.post(
         reserveURL,
         json.encode({
@@ -58,17 +60,22 @@ class ReservationProvider with ChangeNotifier {
           "row": row,
           "column": column
         }));
-
     print("예약하기 StatusCode : $returnStatusCode");
 
     if (returnStatusCode == 201) {
-      print("예약 성공!");
+      message = "예약 성공!";
     } else if (returnStatusCode == 401) {
-      print("잘못된 요청");
+      message = "잘못된 요청";
     } else if (returnStatusCode == 409) {
-      print("이미 사용중인 사물함 입니다.");
+      message = "이미 사용중인 사물함 입니다.";
     } else {
-      print("작업 실패");
+      message = "작업 실패";
     }
+
+    return AlertDialog(
+      content: Text(message),
+      insetPadding: const EdgeInsets.fromLTRB(0, 80, 0, 80),
+      actions: [],
+    );
   }
 }
