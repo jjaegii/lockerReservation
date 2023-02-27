@@ -21049,8 +21049,8 @@ this.b=b},
 aeh:function aeh(){},
 aed:function aed(a){this.a=a},
 aee:function aee(a){this.a=a},
-azh(a){var s=J.az(a),r=J.Tw(t.j.a(s.h(a,"lockers")),new A.a50(),t.BO).e7(0),q=A.aoj(s.h(a,"myLocker"))
-return new A.J7(s.h(a,"rows"),s.h(a,"columns"),q,r)},
+azh(a){var s="myLocker",r=J.az(a),q=J.Tw(t.j.a(r.h(a,"lockers")),new A.a50(),t.BO).e7(0),p=r.h(a,s)!=null?A.aoj(r.h(a,s)):null
+return new A.J7(r.h(a,"rows"),r.h(a,"columns"),p,q)},
 aoj(a){var s=J.az(a)
 s.h(a,"location")
 return new A.ni(s.h(a,"row"),s.h(a,"column"))},

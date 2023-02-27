@@ -20,8 +20,10 @@ class ReservationModel {
     Locker? myLocker;
     if (json['myLocker'] != null) {
       myLocker = Locker.fromJson(json['myLocker']);
+    } else {
+      myLocker = null;
     }
-    myLocker = null;
+
     return ReservationModel(
         rows: json['rows'],
         columns: json['columns'],
