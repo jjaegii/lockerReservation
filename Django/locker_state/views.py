@@ -87,7 +87,7 @@ def LockerList(request,format = None):
             if Locker.objects.filter(**request.data).exists(): # 예약 취소 (중복일때)
                 lk = Locker.objects.get(studentID = request.data['studentID'])
                 lk.delete()
-                return Response(status=status.HTTP_201_CREATED)
+                return Response({"delete":"success"},status=status.HTTP_201_CREATED)
             
             if Locker.objects.filter(location = request.data['location'], row = request.data['row'], column =  request.data['column'] ).exists():  # 사용중인 사물함 예약
                 err = "location is already use"
