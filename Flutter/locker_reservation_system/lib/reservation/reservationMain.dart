@@ -82,16 +82,12 @@ Widget caseButton(int row, int column, String loc, int colCount,
       context.read<ReservationProvider>().setVisitor();
     }
   }
-  print("빌드됨?");
-  if (myLocker != null) {
-    print("myLocker.column == ${myLocker.column}");
-    print("myLocker.row == ${myLocker.row}");
-  }
 
   // 내 락커가 존재할 경우 해당 락커의 색상을 빨간색으로 지정
-  if (myLocker != null && myLocker.column == column && myLocker.row == row) {
-    print("진입");
-    colorPicker = 2;
+  if (myLocker != null) {
+    if (myLocker.column == column && myLocker.row == row) {
+      colorPicker = 2;
+    }
   }
 
   return ElevatedButton(
