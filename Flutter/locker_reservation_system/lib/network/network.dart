@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+import 'package:http/browser_client.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:locker_reservation_system/network/model/user_model.dart'; // 응답 내용을 JSON Map으로 변환
 
 class NetworkMananger {
@@ -13,8 +13,11 @@ class NetworkMananger {
 
   Future<dynamic> get(String url) async {
     print('get() url: $url');
-    http.Response response = await http.get(Uri.parse(url), headers: headers);
+    // http.Response response = await http.get(Uri.parse(url), headers: headers);
+    var client = BrowserClient()..withCredentials = true;
+    http.Response response = await client.get(Uri.parse(url), headers: headers);
     final int statusCode = response.statusCode;
+    updateCookie(response);
 
     if (statusCode < 200 || statusCode > 400 || json == null) {
       print("statusCode : $statusCode, 작업 실패");
@@ -23,6 +26,7 @@ class NetworkMananger {
     var responseData = json.decode(utf8.decode(response.bodyBytes));
     print('StatusCode : $statusCode, 작업 성공');
     print('Response Data : $responseData');
+    print('cookie: ${response.headers['cookie']}');
     return responseData;
   }
 
@@ -41,10 +45,13 @@ class NetworkMananger {
 
   Future<int> post(String url, dynamic data) async {
     // print('post() url: $url');
+    // http.Response response = await http.post(Uri.parse(url), body: data, headers: headers);
     print(data);
-    http.Response response = await http.post(Uri.parse(url),
-        body: data, headers: headers);
+    var client = BrowserClient()..withCredentials = true;
+    http.Response response =
+        await client.post(Uri.parse(url), body: data, headers: headers);
     final int statusCode = response.statusCode;
+    updateCookie(response);
 
     if (statusCode < 200 || statusCode > 400 || json == null) {
       print("statusCode : $statusCode, 작업 실패");
@@ -55,15 +62,18 @@ class NetworkMananger {
     // 로그인 성공 시 회원의 정보를 저장하여야 함
     // 승균이형과 상의할 것
     print('Response Data : $responseData');
+    print('cookie: ${response.headers['cookie']}');
     return statusCode;
   }
 
   Future<int> registerPost(String url, dynamic data) async {
     // print('post() url: $url');
-    http.Response response = await http.post(Uri.parse(url),
-        body: data,
-        headers: headers);
+    // http.Response response = await http.post(Uri.parse(url), body: data, headers: headers);
+    var client = BrowserClient()..withCredentials = true;
+    http.Response response =
+        await client.post(Uri.parse(url), body: data, headers: headers);
     final int statusCode = response.statusCode;
+    updateCookie(response);
 
     if (statusCode < 200 || statusCode > 400 || json == null) {
       print("statusCode : $statusCode, 회원가입 실패");
@@ -72,7 +82,16 @@ class NetworkMananger {
     var responseData = json.decode(utf8.decode(response.bodyBytes));
     print('StatusCode : $statusCode, 회원가입 성공');
     print('Response Data : $responseData');
+    print('cookie: ${response.headers['cookie']}');
     return statusCode;
   }
 
+  void updateCookie(http.Response response) {
+    String? rawCookie = response.headers['set-cookie'];
+    if (rawCookie != null) {
+      int index = rawCookie.indexOf(';');
+      headers['cookie'] =
+          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+    }
+  }
 }
