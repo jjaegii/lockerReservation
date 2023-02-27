@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/network/network.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SidProvider with ChangeNotifier {
   String sid = '';
@@ -23,9 +24,10 @@ class SidProvider with ChangeNotifier {
   // }
 
   Future<int> login(String sid, String pw) async {
+    String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
+
     var returnValue = await NetworkMananger().post(
-        "http://180.189.89.108:8000/login",
-        json.encode({'studentID': sid, 'password': pw}));
+        "$serverUrl/login", json.encode({'studentID': sid, 'password': pw}));
     if (returnValue == 200) {
       this.sid = sid;
       isLogin = true;
@@ -36,13 +38,14 @@ class SidProvider with ChangeNotifier {
     //   isLogin = false;
     //   return returnValue;
     // }
-    
+
     return returnValue;
   }
 
   void logout() async {
-    var returnValue =
-        await NetworkMananger().logoutReq("http://180.189.89.108:8000/logout");
+    String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
+
+    var returnValue = await NetworkMananger().logoutReq("$serverUrl/logout");
     print(returnValue);
     if (returnValue == true) {
       sid = '';

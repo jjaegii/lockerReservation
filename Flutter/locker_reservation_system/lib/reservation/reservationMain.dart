@@ -66,18 +66,13 @@ Widget caseButton(int row, int column, String loc, int colCount,
 
   // 해당 값에 따른 색상 지정
   List<String> caseColorList = [
-    "images/blueCase.png",
-    "images/greyCase.png",
-    "images/redCase.png",
+    "assets/images/blueCase.png",
+    "assets/images/greyCase.png",
+    "assets/images/redCase.png",
   ];
 
   int colorPicker = 0; // 기본 locker 색상은 blue
   int visitor = context.watch<ReservationProvider>().visitor;
-
-  // 내 락커가 존재할 경우 해당 락커의 색상을 빨간색으로 지정
-  if (myLocker != null && myLocker.column == column && myLocker.row == row) {
-    colorPicker = 2;
-  }
 
   // 사용 불가능한 락커의 색상은 회색으로 설정
   if (lockerList.isNotEmpty) {
@@ -86,6 +81,17 @@ Widget caseButton(int row, int column, String loc, int colCount,
       colorPicker = 1;
       context.read<ReservationProvider>().setVisitor();
     }
+  }
+  print("빌드됨?");
+  if (myLocker != null) {
+    print("myLocker.column == ${myLocker.column}");
+    print("myLocker.row == ${myLocker.row}");
+  }
+
+  // 내 락커가 존재할 경우 해당 락커의 색상을 빨간색으로 지정
+  if (myLocker != null && myLocker.column == column && myLocker.row == row) {
+    print("진입");
+    colorPicker = 2;
   }
 
   return ElevatedButton(
