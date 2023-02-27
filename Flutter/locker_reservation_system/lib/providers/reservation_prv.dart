@@ -54,6 +54,7 @@ class ReservationProvider with ChangeNotifier {
   Future<AlertDialog> reserveLocker(
       String stdID, String loc, int row, int column) async {
     String? message;
+
     var returnStatusCode = await nm.post(
         serverUrl! + reserveAPI,
         json.encode({
@@ -65,7 +66,7 @@ class ReservationProvider with ChangeNotifier {
     print("예약하기 StatusCode : $returnStatusCode");
 
     if (returnStatusCode == 201) {
-      message = "예약 성공!";
+      message = "예약(취소) 성공!";
     } else if (returnStatusCode == 401) {
       message = "잘못된 요청";
     } else if (returnStatusCode == 409) {
