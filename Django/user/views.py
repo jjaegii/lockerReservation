@@ -6,6 +6,8 @@ from rest_framework.parsers import JSONParser
 from user.models import User
 from lockerReservation.session import session_funcs
 
+from django.http import JsonResponse
+
 # Create your views here.
 
 # 네이버 api 휴대폰 인증 기능, 미구현
@@ -60,8 +62,10 @@ def login_api(request):
 
         obj = User.objects.get(studentID=studentID)
         if data['password'] == obj.password:
-            request = session_funcs().set(request, studentID)
-            return Response({"studentID": obj.studentID, "name": obj.name}, status=status.HTTP_200_OK)
+            response = JsonResponse(
+                {"studentID": obj.studentID, "name": obj.name}, status=status.HTTP_200_OK)
+            response = session_funcs().set(response, studentID)
+            return response
         else:
             return Response({"error": "password mismatch"}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -69,5 +73,10 @@ def login_api(request):
 @api_view(['GET'])
 def logout_api(request):
     if request.method == 'GET':
-        request = session_funcs().delete(request)
-        return Response(status=status.HTTP_200_OK)
+        response = JsonResponse(
+            data=None,
+            status=status.HTTP_200_OK,
+            safe=False
+        )
+        response.delete_cookie('studentID')
+        return response
