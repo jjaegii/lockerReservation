@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/network/model/reservation_model.dart';
 import 'package:locker_reservation_system/network/network.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // ViewModel 역할
 class ReservationProvider with ChangeNotifier {
@@ -17,8 +18,9 @@ class ReservationProvider with ChangeNotifier {
 
   // NetworkMananger
   NetworkMananger nm = NetworkMananger();
-  String getLockersURL = 'http://180.189.89.108:8000/state?location=';
-  String reserveURL = "http://180.189.89.108:8000/state";
+  String? serverUrl = dotenv.env['SERVER_URL'] ?? "localhost:8000";
+  String getLockersAPI = '/state?location=';
+  String reserveAPI = "/state";
 
   // 모델을 가지고 있음
   // 모델 초기화
@@ -32,7 +34,7 @@ class ReservationProvider with ChangeNotifier {
   }
 
   void getLockers(int index) async {
-    String url = getLockersURL + roomCodeList[index];
+    String url = serverUrl! + getLockersAPI + roomCodeList[index];
     var jsonData = await nm.get(url);
     revModel = ReservationModel.fromJson(jsonData);
     print('revModel Count: ${revModel.lockers.length}');
@@ -52,8 +54,9 @@ class ReservationProvider with ChangeNotifier {
   Future<AlertDialog> reserveLocker(
       String stdID, String loc, int row, int column) async {
     String? message;
+
     var returnStatusCode = await nm.post(
-        reserveURL,
+        serverUrl! + reserveAPI,
         json.encode({
           "studentID": stdID,
           "location": loc,
@@ -63,7 +66,7 @@ class ReservationProvider with ChangeNotifier {
     print("예약하기 StatusCode : $returnStatusCode");
 
     if (returnStatusCode == 201) {
-      message = "예약 성공!";
+      message = "예약(취소) 성공!";
     } else if (returnStatusCode == 401) {
       message = "잘못된 요청";
     } else if (returnStatusCode == 409) {

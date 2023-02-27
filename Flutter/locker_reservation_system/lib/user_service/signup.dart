@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/network/network.dart';
 import 'package:locker_reservation_system/router.dart';
@@ -223,8 +224,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           registerPossible = false;
                         }
                         if (registerPossible) {
+                          String serverUrl = dotenv.env['SERVER_URL'] ??
+                              "http://localhost:8000";
                           int status = await NetworkMananger().registerPost(
-                              "http://180.189.89.108:8000/register",
+                              "$serverUrl/register",
                               json.encode({
                                 'studentID': _sid,
                                 'name': _name,
