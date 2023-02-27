@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'user',
     'locker_state',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -128,8 +128,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SESSION_EXPIRE_SECONDS = 1800  # 30 minutes
-SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-
-CORS_ORIGIN_WHITELIST = ['http://*']
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

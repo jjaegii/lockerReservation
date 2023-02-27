@@ -20,11 +20,11 @@ class _SideNavState extends State<SideNav> {
   ];
 
   List<String> imageList = [
-    "images/113.png",
-    "images/114.png",
-    "images/214.png",
-    "images/219_front.png",
-    "images/219_next.png"
+    "assets/images/113.png",
+    "assets/images/114.png",
+    "assets/images/214.png",
+    "assets/images/219_front.png",
+    "assets/images/219_next.png"
   ];
 
   @override

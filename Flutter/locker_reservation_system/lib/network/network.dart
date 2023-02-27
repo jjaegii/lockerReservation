@@ -42,8 +42,8 @@ class NetworkMananger {
   Future<int> post(String url, dynamic data) async {
     // print('post() url: $url');
     print(data);
-    http.Response response = await http.post(Uri.parse(url),
-        body: data, headers: headers);
+    http.Response response =
+        await http.post(Uri.parse(url), body: data, headers: headers);
     final int statusCode = response.statusCode;
 
     if (statusCode < 200 || statusCode > 400 || json == null) {
@@ -60,9 +60,8 @@ class NetworkMananger {
 
   Future<int> registerPost(String url, dynamic data) async {
     // print('post() url: $url');
-    http.Response response = await http.post(Uri.parse(url),
-        body: data,
-        headers: headers);
+    http.Response response =
+        await http.post(Uri.parse(url), body: data, headers: headers);
     final int statusCode = response.statusCode;
 
     if (statusCode < 200 || statusCode > 400 || json == null) {
@@ -74,5 +73,4 @@ class NetworkMananger {
     print('Response Data : $responseData');
     return statusCode;
   }
-
 }
