@@ -17,7 +17,11 @@ class ReservationModel {
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     var list = json['lockers'] as List;
     List<Locker> lockerList = list.map((i) => Locker.fromJson(i)).toList();
-    Locker myLocker = Locker.fromJson(json['myLocker']);
+    Locker? myLocker;
+    if (json['myLocker'] != null) {
+      myLocker = Locker.fromJson(json['myLocker']);
+    }
+    myLocker = null;
     return ReservationModel(
         rows: json['rows'],
         columns: json['columns'],
