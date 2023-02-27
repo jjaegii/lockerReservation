@@ -12,3 +12,6 @@ Flutter/locker_reservation_system/.dart_tool/package_config.json
 Flutter/locker_reservation_system/.dart_tool/package_config_subset
 .dart_tool/package_config.json
 Flutter/locker_reservation_system/.dart_tool
+
+# flutter .env
+Flutter/locker_reservation_system/assets/config/.env
