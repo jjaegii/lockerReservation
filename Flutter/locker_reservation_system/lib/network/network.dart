@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:locker_reservation_system/network/model/user_model.dart'; // 응답 내용을 JSON Map으로 변환
 
 class NetworkMananger {
   Map<String, String> headers = {
