@@ -29,7 +29,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _isSidEight = true;
     _isPwEqual = true;
     super.initState();
@@ -38,32 +37,6 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isNullCheck() {
     bool isNull = false;
     setState(() {
-      /*
-      if (_sid.isEmpty) {
-        _nullList[0] = true;
-        isNull = true;
-      } else if (_name.isEmpty) {
-        _nullList[0] = false;
-        _nullList[1] = true;
-        isNull = true;
-      } else if (_phnum.isEmpty) {
-        _nullList[1] = false;
-        _nullList[2] = true;
-        isNull = true;
-      } else if (_pw.isEmpty) {
-        _nullList[2] = false;
-        _nullList[3] = true;
-        isNull = true;
-      } else if (_check.isEmpty) {
-        _nullList[3] = false;
-        _nullList[4] = true;
-        isNull = true;
-      } else {
-        _nullList[4] = false;
-      }
-      */
-
-      /**/
       if (_sid.isEmpty) {
         _nullList[0] = true;
         isNull = true;
@@ -99,14 +72,6 @@ class _SignUpPageState extends State<SignUpPage> {
       } else {
         _nullList[4] = false;
       }
-      
-      /* 
-      _sid.isEmpty ? _nullList[0] = true : _nullList[0] = false;
-      _name.isEmpty ? _nullList[1] = true : _nullList[1] = false;
-      _phnum.isEmpty ? _nullList[2] = true : _nullList[2] = false;
-      _pw.isEmpty ? _nullList[3] = true : _nullList[3] = false;
-      _check.isEmpty ? _nullList[4] = true : _nullList[4] = false;
-      */
     });
     return isNull;
   }
@@ -251,45 +216,36 @@ class _SignUpPageState extends State<SignUpPage> {
                           } else {
                             _isPwEqual = false;
                           }
-                          print('_isSidEight: $_isSidEight');
-                          print('_isPwEqual: $_isPwEqual');
                         });
                         if (!isNullCheck() & _isSidEight & _isPwEqual) {
                           registerPossible = true;
                         } else {
                           registerPossible = false;
                         }
-                        print('registerPossible: $registerPossible');
-                        // if (registerPossible) {
-                        //   int status = await NetworkMananger().registerPost(
-                        //       "http://180.189.89.108:8000/register",
-                        //       json.encode({
-                        //         'studentID': _sid,
-                        //         'name': _name,
-                        //         'phone_num': _phnum,
-                        //         'password': _pw,
-                        //       }));
-                        //   String caution;
-                        //   if (status == 201) {
-                        //     // 회원가입 성공
-                        //     caution = "회원가입이 완료되었습니다.";
-                        //     _showRegisterDialog(context, caution, true);
-                        //     // String nextPage = '/';
-                        //     // MyRouter.router.navigateTo(context, nextPage);
-                        //   } else {
-                        //     // 회원가입 실패 시 팝업창 띄우기
-                        //     if (status == 409) {
-                        //       caution = "이미 가입된 학번입니다.\n다시 로그인해보시기 바랍니다.";
-                        //     } else {
-                        //       caution = "회원가입을 할 수 없습니다.";
-                        //     }
-                        //     _showRegisterDialog(context, caution, false);
-                        //   }
-                        // }
-                        // String nextPage = '/';
-                        // MyRouter.router.navigateTo(context, nextPage);
-                        // _snumProvider.login(_snum);
-                        // Navigator.pop(context);
+                        if (registerPossible) {
+                          int status = await NetworkMananger().registerPost(
+                              "http://180.189.89.108:8000/register",
+                              json.encode({
+                                'studentID': _sid,
+                                'name': _name,
+                                'phone_num': _phnum,
+                                'password': _pw,
+                              }));
+                          String caution;
+                          if (status == 201) {
+                            // 회원가입 성공
+                            caution = "회원가입이 완료되었습니다.";
+                            _showRegisterDialog(context, caution, true);
+                          } else {
+                            // 회원가입 실패 시 팝업창 띄우기
+                            if (status == 409) {
+                              caution = "이미 가입된 학번입니다.\n다시 로그인해보시기 바랍니다.";
+                            } else {
+                              caution = "회원가입을 할 수 없습니다.";
+                            }
+                            _showRegisterDialog(context, caution, false);
+                          }
+                        }
                       },
                       child: Text('확인')),
                   // 뒤로가기 버튼
