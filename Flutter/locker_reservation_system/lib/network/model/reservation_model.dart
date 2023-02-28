@@ -1,7 +1,3 @@
-import 'dart:html';
-
-import 'package:locker_reservation_system/network/network.dart';
-
 class ReservationModel {
   final int rows;
   final int columns;
