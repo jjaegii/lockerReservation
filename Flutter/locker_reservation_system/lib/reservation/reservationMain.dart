@@ -85,7 +85,9 @@ Widget caseButton(int row, int column, String loc, int colCount,
 
   // 내 락커가 존재할 경우 해당 락커의 색상을 빨간색으로 지정
   if (myLocker != null) {
-    if (myLocker.column == column && myLocker.row == row) {
+    if (myLocker.location == loc &&
+        myLocker.column == column &&
+        myLocker.row == row) {
       colorPicker = 2;
     }
   }

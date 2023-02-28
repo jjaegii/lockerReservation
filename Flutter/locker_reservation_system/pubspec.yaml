@@ -39,6 +39,7 @@ dependencies:
   fluro: ^2.0.5
   http: ^0.13.5
   flutter_dotenv: ^5.0.2
+  flutter_svg: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,7 @@ flutter:
     - assets/images/redCase.png
     - assets/images/greyCase.png
     - assets/images/blueCase.png
+    - assets/icons/yeongnamLogo.svg
     # .env 용 assets
     - assets/config/.env
 
