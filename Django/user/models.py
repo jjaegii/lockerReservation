@@ -6,12 +6,12 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 # User Model
 
 
-class User(models.Model): 
+class User(models.Model):
     studentID = models.CharField(
         max_length=8, null=False, unique=True, blank=False, primary_key=True)
     name = models.CharField(max_length=40, null=False, blank=False)
     phone_num = models.CharField(
-        max_length=13, null=False, unique=True, blank=False)  # - 존재
+        max_length=11, null=False, unique=True, blank=False)  # - 존재
     password = models.CharField(
         max_length=255, null=False, unique=False, blank=False)
 
@@ -22,11 +22,14 @@ class User(models.Model):
         return self.studentID
 
 # 휴대폰 인증정보 저장되는 테이블
+
+
 class Cert_table(models.Model):
     phone_num = models.CharField(
         max_length=11, null=False, primary_key=True, blank=False)  # - 없음
-    cert_number = models.CharField(max_length=6, null=False, blank=False) # 인증번호
-    cert_status = models.BooleanField(null=False,blank=False) # 인증 상태
+    cert_number = models.CharField(
+        max_length=6, null=False, blank=False)  # 인증번호
+    cert_status = models.BooleanField(null=False, blank=False)  # 인증 상태
 
     def __str__(self):
         return self.phone_num
