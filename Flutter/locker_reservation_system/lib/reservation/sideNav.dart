@@ -11,7 +11,7 @@ class SideNav extends StatefulWidget {
 
 class _SideNavState extends State<SideNav> {
   // Room Number List
-  List<String> list = [
+  List<String> roomNameList = [
     "1층 113호 앞",
     "1층 114호 앞",
     "2층 214호 앞",
@@ -30,26 +30,55 @@ class _SideNavState extends State<SideNav> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Image.asset(
           imageList[context.watch<ReservationProvider>().roomState],
           width: 250,
           height: 250,
         ),
-        for (int i = 0; i < list.length; i++) roomButton(list[i], i, context),
+        for (int i = 0; i < roomNameList.length; i++)
+          roomButton(roomNameList[i], i, context),
       ],
     );
   }
 }
 
 Widget roomButton(String roomName, int index, BuildContext context) {
-  return ElevatedButton(
-    child: Text(roomName),
-    onPressed: () {
-      context.read<ReservationProvider>().selectRoom(index);
-      print("$roomName 번 방을 선택하셨습니다.");
-      context.read<ReservationProvider>().getLockers(index);
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    height: 50,
+    width: 250,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Color.fromARGB(255, 59, 106, 186)),
+      child: Text(
+        roomName,
+        textAlign: TextAlign.center,
+      ),
+      onPressed: () {
+        context.read<ReservationProvider>().selectRoom(index);
+        print("$roomName 번 방을 선택하셨습니다.");
+        context.read<ReservationProvider>().getLockers(index);
+      },
+    ),
+  );
+}
+
+Widget listview(List roomNameList) {
+  final ScrollController _scrollController = ScrollController();
+  return ListView.builder(
+    scrollDirection: Axis.vertical,
+    controller: _scrollController,
+    physics: NeverScrollableScrollPhysics(),
+    padding: const EdgeInsets.all(8),
+    itemCount: roomNameList.length,
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        height: 100,
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        color: Colors.blue,
+      );
     },
   );
 }

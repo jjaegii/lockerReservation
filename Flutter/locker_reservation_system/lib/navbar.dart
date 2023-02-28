@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/sid_prv.dart';
@@ -33,6 +34,14 @@ class _NavBarState extends State<NavBar> {
         widget.title,
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
+      leadingWidth: MediaQuery.of(context).size.width / 5,
+      leading: Container(
+          padding: EdgeInsets.only(left: 10),
+          child: SvgPicture.asset(
+            fit: BoxFit.contain,
+            colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            'assets/icons/yeongnamLogo.svg',
+          )),
       centerTitle: true,
       actions: [
         Consumer<SidProvider>(
