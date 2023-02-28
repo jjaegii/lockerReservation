@@ -17,5 +17,5 @@ Flutter/locker_reservation_system/.dart_tool
 Flutter/locker_reservation_system/assets/config/.env
 
 # Build Files
-Django/flutter_web_app/*
-Flutter/locker_reservation_system/build/*
+Django/flutter_web_app
+Flutter/locker_reservation_system/build
