@@ -1,57 +1,34 @@
 import 'dart:convert';
-import 'dart:js';
 import 'package:flutter/material.dart';
+import 'package:locker_reservation_system/network/model/user_model.dart';
 import 'package:locker_reservation_system/network/network.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SidProvider with ChangeNotifier {
+  late UserModel user;
   String sid = '';
   bool isLogin = false;
 
-  // Future<bool> loginPost(String url, String sid, String pw) async {
-  //   print('post() url: $url');
-  //   http.Response response = await http.post(Uri.parse(url),
-  //       body: json.encode({'studentID':sid, 'password':pw}), headers: headers);
-  //   final int statusCode = response.statusCode;
-  //   if (statusCode < 200 || statusCode > 400 || json == null) {
-  //     print("statusCode : $statusCode, 로그인 실패");
-  //     return false;
-  //   }
-  //   var responseData = json.decode(utf8.decode(response.bodyBytes));
-  //   print('StatusCode : $statusCode, 로그인 성공');
-  //   print('Response Data : $responseData');
-  //   return true;
-  // }
-
   Future<int> login(String sid, String pw) async {
     String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
-
     var returnValue = await NetworkMananger().post(
         "$serverUrl/login", json.encode({'studentID': sid, 'password': pw}));
-    if (returnValue == 200) {
+    if (returnValue['status'] == 200) {
       this.sid = sid;
+      user = UserModel.fromJson(returnValue['data']);
       isLogin = true;
       notifyListeners();
     }
-    // else {
-    //   this.sid = '';
-    //   isLogin = false;
-    //   return returnValue;
-    // }
-
-    return returnValue;
+    return returnValue['status'];
   }
 
   void logout() async {
     String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
-
     var returnValue = await NetworkMananger().logoutReq("$serverUrl/logout");
-    print(returnValue);
     if (returnValue == true) {
       sid = '';
       isLogin = false;
     }
-    print('isLogin: $isLogin');
     notifyListeners();
   }
 }
