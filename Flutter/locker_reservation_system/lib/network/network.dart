@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class NetworkMananger {
-  Map<String, String> headers = {
+  static Map<String, String> headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   };
@@ -22,7 +22,7 @@ class NetworkMananger {
     return responseData;
   }
 
-  Future<bool> logoutReq(String url) async {
+  static Future<bool> logoutReq(String url) async {
     http.Response response = await http.get(Uri.parse(url), headers: headers);
     final int statusCode = response.statusCode;
 
@@ -35,7 +35,6 @@ class NetworkMananger {
   }
 
   Future<Map<String, dynamic>> post(String url, dynamic data) async {
-    print(data);
     http.Response response =
         await http.post(Uri.parse(url), body: data, headers: headers);
     final int statusCode = response.statusCode;

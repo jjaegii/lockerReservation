@@ -5,7 +5,7 @@ import 'package:locker_reservation_system/network/network.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SidProvider with ChangeNotifier {
-  late UserModel user;
+  late UserModel user = UserModel(studentID: 'sid', name: 'name');
   String sid = '';
   bool isLogin = false;
 
@@ -24,7 +24,7 @@ class SidProvider with ChangeNotifier {
 
   void logout() async {
     String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
-    var returnValue = await NetworkMananger().logoutReq("$serverUrl/logout");
+    var returnValue = await NetworkMananger.logoutReq("$serverUrl/logout");
     if (returnValue == true) {
       sid = '';
       isLogin = false;
