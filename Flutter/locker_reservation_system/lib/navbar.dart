@@ -35,6 +35,7 @@ class _NavBarState extends State<NavBar> {
       ),
       centerTitle: true,
       actions: [
+        // 로그인 상태일 때 -> 사용자 이름, 로그아웃 버튼
         Consumer<SidProvider>(
             builder: (context, sidProvider, child) => Visibility(
                   visible: Provider.of<SidProvider>(context).isLogin,
@@ -42,7 +43,7 @@ class _NavBarState extends State<NavBar> {
                     children: [
                       Center(
                         child: Text(
-                          '${Provider.of<SidProvider>(context).sid}님 환영합니다.',
+                          '${Provider.of<SidProvider>(context).user.name}님 환영합니다.',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -65,6 +66,7 @@ class _NavBarState extends State<NavBar> {
                     ],
                   ),
                 )),
+        // 로그인 상태가 아닐 때 -> 로그인, 회원가입 버튼
         Consumer<SidProvider>(
             builder: (context, sidProvider, child) => Visibility(
                   visible: !Provider.of<SidProvider>(context).isLogin,
@@ -74,10 +76,6 @@ class _NavBarState extends State<NavBar> {
                           onPressed: () {
                             String nextPage = '/login';
                             MyRouter.router.navigateTo(context, nextPage);
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute<void>(
-                            //         builder: (context) => LoginPage()));
                           },
                           child: Text(
                             '로그인',
@@ -90,10 +88,6 @@ class _NavBarState extends State<NavBar> {
                           onPressed: () {
                             String nextPage = '/register';
                             MyRouter.router.navigateTo(context, nextPage);
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute<void>(
-                            //         builder: (context) => SignUpPage()));
                           },
                           child: Text(
                             '회원가입',

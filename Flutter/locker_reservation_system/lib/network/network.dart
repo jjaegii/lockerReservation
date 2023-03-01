@@ -12,7 +12,6 @@ class NetworkMananger {
   };
 
   Future<dynamic> get(String url) async {
-    print('get() url: $url');
     http.Response response = await http.get(Uri.parse(url), headers: headers);
     final int statusCode = response.statusCode;
 
@@ -27,7 +26,6 @@ class NetworkMananger {
   }
 
   Future<bool> logoutReq(String url) async {
-    // print('get() url: $url');
     http.Response response = await http.get(Uri.parse(url), headers: headers);
     final int statusCode = response.statusCode;
 
@@ -39,30 +37,27 @@ class NetworkMananger {
     return true;
   }
 
-  Future<int> post(String url, dynamic data) async {
-    // print('post() url: $url');
+  Future<Map<String, dynamic>> post(String url, dynamic data) async {
     print(data);
     http.Response response = await http.post(Uri.parse(url),
         body: data, headers: headers);
     final int statusCode = response.statusCode;
+    Map<String, dynamic> ret = {'status': statusCode, 'data': null};
 
     if (statusCode < 200 || statusCode > 400 || json == null) {
       print("statusCode : $statusCode, 작업 실패");
-      return statusCode;
+      return ret;
     }
+
     var responseData = json.decode(utf8.decode(response.bodyBytes));
     print('StatusCode : $statusCode, 작업 성공');
-    // 로그인 성공 시 회원의 정보를 저장하여야 함
-    // 승균이형과 상의할 것
-    print('Response Data : $responseData');
-    return statusCode;
+    ret['data'] = responseData;
+    return ret;
   }
 
   Future<int> registerPost(String url, dynamic data) async {
-    // print('post() url: $url');
-    http.Response response = await http.post(Uri.parse(url),
-        body: data,
-        headers: headers);
+    http.Response response =
+        await http.post(Uri.parse(url), body: data, headers: headers);
     final int statusCode = response.statusCode;
 
     if (statusCode < 200 || statusCode > 400 || json == null) {
@@ -70,9 +65,8 @@ class NetworkMananger {
       return statusCode;
     }
     var responseData = json.decode(utf8.decode(response.bodyBytes));
-    print('StatusCode : $statusCode, 회원가입 성공');
+    print('회원가입 성공');
     print('Response Data : $responseData');
     return statusCode;
   }
-
 }
