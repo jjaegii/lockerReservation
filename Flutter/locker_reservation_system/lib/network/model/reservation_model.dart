@@ -1,7 +1,3 @@
-import 'dart:html';
-
-import 'package:locker_reservation_system/network/network.dart';
-
 class ReservationModel {
   final int rows;
   final int columns;
@@ -17,11 +13,17 @@ class ReservationModel {
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     var list = json['lockers'] as List;
     List<Locker> lockerList = list.map((i) => Locker.fromJson(i)).toList();
+    Locker? myLocker;
+    if (json['myLocker'] != null) {
+      myLocker = Locker.fromJson(json['myLocker']);
+    } else {
+      myLocker = null;
+    }
 
     return ReservationModel(
         rows: json['rows'],
         columns: json['columns'],
-        myLocker: json['myLocker'],
+        myLocker: myLocker,
         lockers: lockerList);
   }
 }

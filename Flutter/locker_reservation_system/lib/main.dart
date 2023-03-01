@@ -61,12 +61,15 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Center(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SideNav(),
-            ReservationMain(),
-            const Text(
-              '.',
+            Expanded(
+              flex: 1,
+              child: SideNav(),
+            ),
+            Expanded(
+              flex: 4,
+              child: ReservationMain(),
             ),
           ],
         ),

@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:locker_reservation_system/network/model/user_model.dart'; // 응답 내용을 JSON Map으로 변환
 
 class NetworkMananger {
   Map<String, String> headers = {
@@ -39,8 +36,8 @@ class NetworkMananger {
 
   Future<Map<String, dynamic>> post(String url, dynamic data) async {
     print(data);
-    http.Response response = await http.post(Uri.parse(url),
-        body: data, headers: headers);
+    http.Response response =
+        await http.post(Uri.parse(url), body: data, headers: headers);
     final int statusCode = response.statusCode;
     Map<String, dynamic> ret = {'status': statusCode, 'data': null};
 
