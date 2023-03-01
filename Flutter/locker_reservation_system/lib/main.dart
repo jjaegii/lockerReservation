@@ -12,6 +12,8 @@ import 'package:locker_reservation_system/reservation/sideNav.dart';
 void main() async {
   await dotenv.load(fileName: 'assets/config/.env');
   MyRouter.setupRouters();
+  String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
+  NetworkMananger.logoutReq("$serverUrl/logout");
   runApp(const MyApp());
 }
 
@@ -45,12 +47,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  @override
-  void initState() {
-    String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
-    NetworkMananger().logoutReq("$serverUrl/logout");
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
+  //   NetworkMananger().logoutReq("$serverUrl/logout");
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
