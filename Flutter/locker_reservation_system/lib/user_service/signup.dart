@@ -15,7 +15,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final formKey = GlobalKey<FormState>();
-  final PhnumFormKey = GlobalKey<FormState>();
+  final phnumFormKey = GlobalKey<FormState>();
 
   final TextEditingController _sidController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -28,11 +28,13 @@ class _SignUpPageState extends State<SignUpPage> {
   String _pw = '';
   String _auth = '';
   late bool _authentication;
+  late bool _authReqBtn;
   late bool _authBtn;
 
   @override
   void initState() {
     _authentication = false;
+    _authReqBtn = true;
     _authBtn = false;
     super.initState();
   }
@@ -137,7 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                       // 전화번호 입력란
                       Form(
-                        key: PhnumFormKey,
+                        key: phnumFormKey,
                         child: Row(
                           children: [
                             Flexible(
@@ -147,18 +149,19 @@ class _SignUpPageState extends State<SignUpPage> {
                                   if (value == null || value.isEmpty) {
                                     return '전화번호를 입력하세요.';
                                   }
-                                  if (!RegExp(r'^\d{3}-\d{3,4}-\d{4}$')
+                                  if (!RegExp(r'^\d{3}\d{3,4}\d{4}$')
                                       .hasMatch(value)) {
-                                    return '잘못된 전화번호 형식입니다. ex) 010-xxxx-oooo';
+                                    return '잘못된 전화번호 형식입니다. ex) 010xxxxOOOO';
                                   }
                                   return null;
                                 },
+                                readOnly: !_authReqBtn,
                                 keyboardType: TextInputType.phone,
                                 cursorColor: Colors.black26,
                                 decoration: InputDecoration(
                                   border: borderMaker(Colors.black),
                                   focusedBorder: borderMaker(Color(0xff0D3F7A)),
-                                  labelText: '전화번호 (하이픈 \'-\' 입력 필수)',
+                                  labelText: '전화번호(하이픈 \'-\', 띄어쓰기 제외)',
                                   floatingLabelStyle: TextStyle(
                                     color: Colors.black,
                                   ),
@@ -176,16 +179,42 @@ class _SignUpPageState extends State<SignUpPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton(
-                                    onPressed: !_authentication ? () {
-                                      // 전화번호 형식이 옳은지 확인한 후
-                                      if (PhnumFormKey.currentState!.validate()) {
-                                        // 인증번호 요청 보내기
-                                        print('전화번호 전송하고 인증번호 받기');
-                                        setState(() {
-                                          _authBtn = true;
-                                        });
-                                      }
-                                    } : null,
+                                    onPressed: _authReqBtn
+                                        ? () async {
+                                            setState(() {
+                                              _phnum = _phnumController.text;
+                                            });
+                                            // 전화번호 형식이 옳은지 확인한 후
+                                            if (phnumFormKey.currentState!
+                                                .validate()) {
+                                              // 인증번호 요청 보내기
+                                              String serverUrl =
+                                                  dotenv.env['SERVER_URL'] ??
+                                                      "http://localhost:8000";
+                                              var status =
+                                                  await NetworkMananger().post(
+                                                      "$serverUrl/cert",
+                                                      json.encode({
+                                                        'phone_num': _phnum
+                                                      }));
+                                              if (status['status'] == 200) {
+                                                setState(() {
+                                                  _authBtn = true;
+                                                  _authReqBtn = false;
+                                                });
+                                                String caution =
+                                                    "인증번호가 전송되었습니다.\n인증을 완료해주세요.";
+                                                _showRegisterDialog(
+                                                    context, caution, false);
+                                              } else {
+                                                String caution =
+                                                    "인증번호 요청 오류입니다.\n회원가입을 다시 시도해주세요.";
+                                                _showRegisterDialog(
+                                                    context, caution, true);
+                                              }
+                                            }
+                                          }
+                                        : null,
                                     child: Text(
                                       '인증번호\n요청',
                                       style: TextStyle(fontSize: 12),
@@ -209,6 +238,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               child: TextField(
                                 keyboardType: TextInputType.phone,
                                 cursorColor: Colors.black26,
+                                readOnly: _authentication,
                                 decoration: InputDecoration(
                                   border: borderMaker(Colors.black),
                                   focusedBorder: borderMaker(Color(0xff0D3F7A)),
@@ -228,17 +258,43 @@ class _SignUpPageState extends State<SignUpPage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton(
                                     onPressed: !_authentication
-                                        ? () {
+                                        ? () async {
                                             setState(() {
                                               _auth = _authController.text;
                                             });
-                                            // 인증번호가 옳은지 확인한 후
-                                            if (true) {
-                                              // 인증 완료
-                                              print('본인 인증 완료');
-                                              setState(() {
-                                                _authentication = true;
-                                              });
+                                            // 인증번호 확인 요청
+                                            String serverUrl =
+                                                dotenv.env['SERVER_URL'] ??
+                                                    "http://localhost:8000";
+                                            var response =
+                                                await NetworkMananger().post(
+                                                    "$serverUrl/check",
+                                                    json.encode({
+                                                      'phone_num': _phnum,
+                                                      'cert_number': _auth,
+                                                    }));
+                                            // 인증번호가 옳은지 확인
+                                            if (response['status'] == 200) {
+                                              if(response['data']['cert'] == "success"){
+                                                // 인증 완료
+                                                setState(() {
+                                                  _authentication = true;
+                                                });
+                                                String caution =
+                                                    "휴대폰 본인 인증이 완료되었습니다.";
+                                                _showRegisterDialog(
+                                                    context, caution, false);
+                                              } else {
+                                                String caution =
+                                                    "인증번호가 맞지 않습니다.\n인증번호를 정확하게 입력해주세요.";
+                                                _showRegisterDialog(
+                                                    context, caution, false);
+                                              }
+                                            } else {
+                                                String caution =
+                                                    "인증번호 요청 오류입니다.\n회원가입을 다시 시도해주세요.";
+                                                _showRegisterDialog(
+                                                    context, caution, true);
                                             }
                                           }
                                         : null,
@@ -309,8 +365,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                 if (_authentication) {
                                   if (formKey.currentState!.validate()) {
                                     print('회원가입 요청');
-                                    String serverUrl = dotenv.env['SERVER_URL'] ??
-                                        "http://localhost:8000";
+                                    String serverUrl =
+                                        dotenv.env['SERVER_URL'] ??
+                                            "http://localhost:8000";
                                     int status =
                                         await NetworkMananger().registerPost(
                                             "$serverUrl/register",
@@ -324,7 +381,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                     if (status == 201) {
                                       // 회원가입 성공
                                       caution = "회원가입이 완료되었습니다.";
-                                      _showRegisterDialog(context, caution, true);
+                                      _showRegisterDialog(
+                                          context, caution, true);
                                     } else {
                                       // 회원가입 실패 시 팝업창 띄우기
                                       if (status == 409) {
@@ -333,7 +391,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                       } else {
                                         caution = "회원가입을 할 수 없습니다.";
                                       }
-                                      _showRegisterDialog(context, caution, false);
+                                      _showRegisterDialog(
+                                          context, caution, false);
                                     }
                                   }
                                 } else {
