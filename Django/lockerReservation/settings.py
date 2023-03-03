@@ -139,4 +139,4 @@ CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
 
 # 마감시간
-CLOSINGTIME = datetime.strptime("20230303", "%Y%m%d")
+CLOSINGTIME = datetime.strptime("20230314", "%Y%m%d")
