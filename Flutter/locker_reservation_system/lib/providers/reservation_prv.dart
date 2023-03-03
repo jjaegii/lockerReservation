@@ -55,7 +55,7 @@ class ReservationProvider with ChangeNotifier {
       String stdID, String loc, int row, int column) async {
     String? message;
 
-    var returnStatusCode = await nm.post(
+    var returnStatus = await nm.post(
         serverUrl! + reserveAPI,
         json.encode({
           "studentID": stdID,
@@ -63,13 +63,13 @@ class ReservationProvider with ChangeNotifier {
           "row": row,
           "column": column
         }));
-    print("예약하기 StatusCode : $returnStatusCode");
+    print("예약하기 StatusCode : ${returnStatus['status']}");
 
-    if (returnStatusCode == 201) {
+    if (returnStatus['status'] == 201) {
       message = "예약(취소) 성공!";
-    } else if (returnStatusCode == 401) {
+    } else if (returnStatus['status'] == 401) {
       message = "잘못된 요청";
-    } else if (returnStatusCode == 409) {
+    } else if (returnStatus['status'] == 409) {
       message = "이미 사용중인 사물함 입니다.";
     } else {
       message = "작업 실패";

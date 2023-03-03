@@ -12,34 +12,36 @@ class SideNav extends StatefulWidget {
 class _SideNavState extends State<SideNav> {
   // Room Number List
   List<String> roomNameList = [
-    "1층 113호 앞",
     "1층 114호 앞",
-    "2층 214호 앞",
+    "1층 113호 앞",
+    "2층 220호 앞",
     "2층 219호 앞",
-    "2층 219호 옆"
+    "2층 221호 앞"
   ];
 
   List<String> imageList = [
-    "assets/images/113.png",
-    "assets/images/114.png",
-    "assets/images/214.png",
-    "assets/images/219_front.png",
-    "assets/images/219_next.png"
+    "assets/images/a.jpg",
+    "assets/images/b.jpg",
+    "assets/images/c.jpg",
+    "assets/images/d.jpg",
+    "assets/images/e.jpg"
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Image.asset(
-          imageList[context.watch<ReservationProvider>().roomState],
-          width: 250,
-          height: 250,
-        ),
-        for (int i = 0; i < roomNameList.length; i++)
-          roomButton(roomNameList[i], i, context),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image.asset(
+            imageList[context.watch<ReservationProvider>().roomState],
+            width: 250,
+            height: 250,
+          ),
+          for (int i = 0; i < roomNameList.length; i++)
+            roomButton(roomNameList[i], i, context),
+        ],
+      ),
     );
   }
 }
