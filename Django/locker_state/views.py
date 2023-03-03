@@ -27,26 +27,26 @@ def LockerList(request,format = None):
             queryset = Locker.objects.filter(location = loc) 
             serializer = LockerSerializer(queryset,many = True)
             
-            if(loc == 'a'):
-                rows = 3
-                columns = 9
-                
-            elif(loc == 'b'):
+            if (loc == 'a'):  # 1층 114앞
+                rows = 5
+                columns = 20
+
+            elif (loc == 'b'):  # 1층 113앞
                 rows = 5
                 columns = 6
-                
-            elif(loc == 'c'):
-                rows = 1
-                columns = 4
-            
-            elif(loc == 'd'):
-                rows = 5
-                columns = 2
-                
-            elif(loc == 'e'):
+
+            elif (loc == 'c'):  # 2층 220앞
                 rows = 5
                 columns = 22
-            
+
+            elif (loc == 'd'):  # 2층 119앞
+                rows = 5
+                columns = 2
+
+            elif (loc == 'e'):  # 2층 221앞
+                rows = 5
+                columns = 12
+
             else:
                 err = "not enable data"
                 raise exceptions.ParseError("not enable data")
