@@ -22,33 +22,33 @@ def LockerList(request, format=None):
     stcode = status.HTTP_404_NOT_FOUND
     try:
         if request.method == 'GET':  # 사물함 조회 (파라미터는 location)
-            loc = request.GET['location']
-            if len(loc) > 1:
-                err = "not enable data"
-                raise exceptions.ParseError("not enable data")
-            # print(loc)
-            queryset = Locker.objects.filter(location=loc)
-            serializer = LockerSerializer(queryset, many=True)
+            loc = request.GET['location'] 
+            if len(loc) > 1 : 
+                err = "not enable data" 
+                raise exceptions.ParseError("not enable data") 
+            #print(loc) 
+            queryset = Locker.objects.filter(location = loc) 
+            serializer = LockerSerializer(queryset,many = True)
+            
+            if (loc == 'a'):  # 1층 114앞
+                rows = 5
+                columns = 20
 
-            if (loc == 'a'):
-                rows = 3
-                columns = 9
-
-            elif (loc == 'b'):
+            elif (loc == 'b'):  # 1층 113앞
                 rows = 5
                 columns = 6
 
-            elif (loc == 'c'):
-                rows = 1
-                columns = 4
+            elif (loc == 'c'):  # 2층 220앞
+                rows = 5
+                columns = 22
 
-            elif (loc == 'd'):
+            elif (loc == 'd'):  # 2층 119앞
                 rows = 5
                 columns = 2
 
-            elif (loc == 'e'):
+            elif (loc == 'e'):  # 2층 221앞
                 rows = 5
-                columns = 22
+                columns = 12
 
             else:
                 err = "not enable data"
