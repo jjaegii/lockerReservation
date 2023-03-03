@@ -370,7 +370,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                   if (formKey.currentState!.validate()) {
                                     // 비밀번호 암호화
                                     _pw = pwHashing(_pw);
-                                    print(_pw);
                                     // 회원가입 요청
                                     String serverUrl =
                                         dotenv.env['SERVER_URL'] ??
