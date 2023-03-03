@@ -15,41 +15,46 @@ class ReservationMain extends StatelessWidget {
     String loc =
         context.watch<ReservationProvider>().roomCodeList[nowRoomState];
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          for (int i = 0; i < rowCount; i++)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                for (int j = 0; j < colCount; j++)
-                  caseButton(i, j, loc, colCount, nowRoomState, context),
-              ],
-            ),
-          Padding(padding: EdgeInsets.all(9.0)),
-          const Text.rich(
-            textAlign: TextAlign.center,
-            TextSpan(
-              text: '※ 참고 ※\n',
-              style: TextStyle(fontWeight: FontWeight.bold),
-              children: <TextSpan>[
-                TextSpan(text: ' 빨간색 ', style: TextStyle(color: Colors.red)),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              for (int i = 0; i < rowCount; i++)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    for (int j = 0; j < colCount; j++)
+                      caseButton(i, j, loc, colCount, nowRoomState, context),
+                  ],
+                ),
+              Padding(padding: EdgeInsets.all(9.0)),
+              const Text.rich(
+                textAlign: TextAlign.center,
                 TextSpan(
-                    text: ': 내가 예약한 사물함\n',
-                    style: TextStyle(fontWeight: FontWeight.normal)),
-                TextSpan(text: ' 파란색 ', style: TextStyle(color: Colors.blue)),
-                TextSpan(
-                    text: ': 예약 가능한 사물함\n',
-                    style: TextStyle(fontWeight: FontWeight.normal)),
-                TextSpan(text: ' 회색 ', style: TextStyle(color: Colors.grey)),
-                TextSpan(
-                    text: ': 예약 불가능한 사물함\n',
-                    style: TextStyle(fontWeight: FontWeight.normal)),
-              ],
-            ),
+                  text: '※ 참고 ※\n',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  children: <TextSpan>[
+                    TextSpan(text: ' 빨간색 ', style: TextStyle(color: Colors.red)),
+                    TextSpan(
+                        text: ': 내가 예약한 사물함\n',
+                        style: TextStyle(fontWeight: FontWeight.normal)),
+                    TextSpan(text: ' 파란색 ', style: TextStyle(color: Colors.blue)),
+                    TextSpan(
+                        text: ': 예약 가능한 사물함\n',
+                        style: TextStyle(fontWeight: FontWeight.normal)),
+                    TextSpan(text: ' 회색 ', style: TextStyle(color: Colors.grey)),
+                    TextSpan(
+                        text: ': 예약 불가능한 사물함\n',
+                        style: TextStyle(fontWeight: FontWeight.normal)),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -150,11 +155,11 @@ Widget caseButton(int row, int column, String loc, int colCount,
 Widget reserveTip(
     int row, int column, int colCount, String loc, int nowRoomState) {
   List<String> list = [
-    "1층 113호 앞",
     "1층 114호 앞",
-    "2층 214호 앞",
+    "1층 113호 앞",
+    "2층 220호 앞",
     "2층 219호 앞",
-    "2층 219호 옆"
+    "2층 221호 앞"
   ];
   return Text(
       "${list[nowRoomState]}방의 ${(row * colCount) + column + 1}번 사물함을 선택하셨습니다.\n 이대로 예약을 진행하시겠습니까?");
@@ -163,11 +168,11 @@ Widget reserveTip(
 Widget cancelTip(
     int row, int column, int colCount, String loc, int nowRoomState) {
   List<String> list = [
-    "1층 113호 앞",
     "1층 114호 앞",
-    "2층 214호 앞",
+    "1층 113호 앞",
+    "2층 220호 앞",
     "2층 219호 앞",
-    "2층 219호 옆"
+    "2층 221호 앞"
   ];
   return Text(
       "예약된 사물함 (${list[nowRoomState]}방/${(row * colCount) + column + 1}번 사물함)의 신청을 취소하겠습니까?");

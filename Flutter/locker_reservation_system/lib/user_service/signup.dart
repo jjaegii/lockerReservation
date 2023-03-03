@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/network/network.dart';
 import 'package:locker_reservation_system/router.dart';
+import 'package:locker_reservation_system/user_service/hashing.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -187,6 +187,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                             // 전화번호 형식이 옳은지 확인한 후
                                             if (phnumFormKey.currentState!
                                                 .validate()) {
+                                              setState(() {
+                                                _authBtn = true;
+                                                _authReqBtn = false;
+                                              });
                                               // 인증번호 요청 보내기
                                               String serverUrl =
                                                   dotenv.env['SERVER_URL'] ??
@@ -198,10 +202,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                                         'phone_num': _phnum
                                                       }));
                                               if (status['status'] == 200) {
-                                                setState(() {
-                                                  _authBtn = true;
-                                                  _authReqBtn = false;
-                                                });
                                                 String caution =
                                                     "인증번호가 전송되었습니다.\n인증을 완료해주세요.";
                                                 _showRegisterDialog(
@@ -275,8 +275,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                                     }));
                                             // 인증번호가 옳은지 확인
                                             if (response['status'] == 200) {
-                                              if(response['data']['cert'] == "success"){
-                                                // 인증 완료
+                                              if (response['data']['cert'] ==
+                                                  "success") {
+                                                // 인증 완료 시
                                                 setState(() {
                                                   _authentication = true;
                                                 });
@@ -285,16 +286,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 _showRegisterDialog(
                                                     context, caution, false);
                                               } else {
+                                                // 인증 실패 시
                                                 String caution =
                                                     "인증번호가 맞지 않습니다.\n인증번호를 정확하게 입력해주세요.";
                                                 _showRegisterDialog(
                                                     context, caution, false);
                                               }
                                             } else {
-                                                String caution =
-                                                    "인증번호 요청 오류입니다.\n회원가입을 다시 시도해주세요.";
-                                                _showRegisterDialog(
-                                                    context, caution, true);
+                                              String caution =
+                                                  "인증번호 요청 오류입니다.\n회원가입을 다시 시도해주세요.";
+                                              _showRegisterDialog(
+                                                  context, caution, true);
                                             }
                                           }
                                         : null,
@@ -362,9 +364,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                   _phnum = _phnumController.text;
                                   _pw = _pwController.text;
                                 });
+                                // 휴대폰 인증 완료 체크
                                 if (_authentication) {
+                                  // 입력 양식 유효성 체크
                                   if (formKey.currentState!.validate()) {
-                                    print('회원가입 요청');
+                                    // 비밀번호 암호화
+                                    _pw = pwHashing(_pw);
+                                    print(_pw);
+                                    // 회원가입 요청
                                     String serverUrl =
                                         dotenv.env['SERVER_URL'] ??
                                             "http://localhost:8000";
@@ -379,7 +386,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                             }));
                                     String caution;
                                     if (status == 201) {
-                                      // 회원가입 성공
+                                      // 회원가입 성공 시 -> 메인화면으로 이동
                                       caution = "회원가입이 완료되었습니다.";
                                       _showRegisterDialog(
                                           context, caution, true);
