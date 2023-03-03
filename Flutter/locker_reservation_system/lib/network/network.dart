@@ -18,7 +18,6 @@ class NetworkMananger {
     }
     var responseData = json.decode(utf8.decode(response.bodyBytes));
     print('StatusCode : $statusCode, 작업 성공');
-    print('Response Data : $responseData');
     return responseData;
   }
 
@@ -60,9 +59,7 @@ class NetworkMananger {
       print("statusCode : $statusCode, 회원가입 실패");
       return statusCode;
     }
-    var responseData = json.decode(utf8.decode(response.bodyBytes));
-    print('회원가입 성공');
-    print('Response Data : $responseData');
+    print('statusCode : $statusCode, 회원가입 성공');
     return statusCode;
   }
 }
