@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                           String nextPage = '/';
                           MyRouter.router.navigateTo(context, nextPage);
                         },
-                        child: Text('뒤로가기')),
+                        child: Text('메인 화면')),
                   ],
                 ),
               ),
