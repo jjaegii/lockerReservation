@@ -15,15 +15,17 @@ class MyRouter {
   /*
     핸들러
    */
-  // 메인 페이지 핸들러 - 파라미터 수정 필요
+  // 메인 페이지 핸들러
   static final Handler _homePageHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           MainPage(
             title: '사물함 예약 시스템',
           ));
+  // 로그인 페이지 핸들러
   static final Handler _loginPageHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           LoginPage());
+  // 회원가입 페이지 핸들러
   static final Handler _registerPageHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           SignUpPage());

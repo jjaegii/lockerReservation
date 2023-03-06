@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/network/model/reservation_model.dart';
 import 'package:locker_reservation_system/network/network.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // ViewModel 역할
 class ReservationProvider with ChangeNotifier {
@@ -18,7 +16,6 @@ class ReservationProvider with ChangeNotifier {
 
   // NetworkMananger
   NetworkMananger nm = NetworkMananger();
-  String? serverUrl = dotenv.env['SERVER_URL'] ?? "localhost:8000";
   String getLockersAPI = '/state?location=';
   String reserveAPI = "/state";
 
@@ -34,7 +31,7 @@ class ReservationProvider with ChangeNotifier {
   }
 
   void getLockers(int index) async {
-    String url = serverUrl! + getLockersAPI + roomCodeList[index];
+    String url = getLockersAPI + roomCodeList[index];
     var jsonData = await nm.get(url);
     revModel = ReservationModel.fromJson(jsonData);
     print('revModel Count: ${revModel.lockers.length}');
@@ -56,7 +53,7 @@ class ReservationProvider with ChangeNotifier {
     String? message;
 
     var returnStatus = await nm.post(
-        serverUrl! + reserveAPI,
+        reserveAPI,
         json.encode({
           "studentID": stdID,
           "location": loc,

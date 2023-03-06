@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:locker_reservation_system/network/network.dart';
 import 'package:locker_reservation_system/reservation/reservationMain.dart';
 import 'package:locker_reservation_system/router.dart';
@@ -9,11 +8,9 @@ import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/reservation/sideNav.dart';
 
-void main() async {
-  await dotenv.load(fileName: 'assets/config/.env');
+void main(){
   MyRouter.setupRouters();
-  String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
-  NetworkMananger.logoutReq("$serverUrl/logout");
+  NetworkMananger.logoutReq("/logout");
   runApp(const MyApp());
 }
 
@@ -47,12 +44,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  // @override
-  // void initState() {
-  //   String serverUrl = dotenv.env['SERVER_URL'] ?? "http://localhost:8000";
-  //   NetworkMananger().logoutReq("$serverUrl/logout");
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
