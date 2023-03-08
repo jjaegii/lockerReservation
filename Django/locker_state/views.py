@@ -22,14 +22,14 @@ def LockerList(request, format=None):
     stcode = status.HTTP_404_NOT_FOUND
     try:
         if request.method == 'GET':  # 사물함 조회 (파라미터는 location)
-            loc = request.GET['location'] 
-            if len(loc) > 1 : 
-                err = "not enable data" 
-                raise exceptions.ParseError("not enable data") 
-            #print(loc) 
-            queryset = Locker.objects.filter(location = loc) 
-            serializer = LockerSerializer(queryset,many = True)
-            
+            loc = request.GET['location']
+            if len(loc) > 1:
+                err = "not enable data"
+                raise exceptions.ParseError("not enable data")
+            # print(loc)
+            queryset = Locker.objects.filter(location=loc)
+            serializer = LockerSerializer(queryset, many=True)
+
             if (loc == 'a'):  # 1층 114앞
                 rows = 5
                 columns = 20
@@ -98,7 +98,7 @@ def LockerList(request, format=None):
             if Locker.objects.filter(**request.data).exists():  # 예약 취소 (중복일때)
                 lk = Locker.objects.get(studentID=request.data['studentID'])
                 lk.delete()
-                return Response({"delete": "success"}, status=status.HTTP_201_CREATED)
+                return Response({"delete": "success"}, status=status.HTTP_202_ACCEPTED)
 
             # 사용중인 사물함 예약
             if Locker.objects.filter(location=request.data['location'], row=request.data['row'], column=request.data['column']).exists():
