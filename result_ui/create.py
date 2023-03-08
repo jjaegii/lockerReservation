@@ -6,7 +6,7 @@ from PIL import ImageFont, ImageDraw, Image
 font = ImageFont.truetype('./GULIM.TTC',38) # 폰트경로
 font2 = ImageFont.truetype('./GULIM.TTC',50) # 폰트경로
 
-conn = sqlite3.connect('../db.sqlite3') # db 경로
+conn = sqlite3.connect('../Django/db.sqlite3') # db 경로
 c = conn.cursor()
 lock_a =  [["0" for col in range(20)] for row in range(5)]
 lock_b =  [["0" for col in range(6)] for row in range(5)]
