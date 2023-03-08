@@ -87,7 +87,6 @@ class _SignUpPageState extends State<SignUpPage> {
               flex: 8,
               child: SizedBox(
                 height: 600,
-                // width: 600,
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -211,6 +210,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                             }
                                           }
                                         : null,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xff0D3F7A),
+                                    ),
                                     child: Text(
                                       '인증번호\n요청',
                                       style: TextStyle(fontSize: 12),
@@ -293,6 +295,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                             }
                                           }
                                         : null,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xff0D3F7A),
+                                    ),
                                     child: Text(
                                       !_authentication ? '인증하기' : '인증완료',
                                       style: TextStyle(fontSize: 12),
@@ -396,14 +401,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                   _showRegisterDialog(context, caution, false);
                                 }
                               },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff0D3F7A),
+                              ),
                               child: Text('확인')),
 
                           // 뒤로가기 버튼
-                          ElevatedButton(
+                          OutlinedButton(
                               onPressed: () {
                                 String nextPage = '/';
                                 MyRouter.router.navigateTo(context, nextPage);
                               },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Color(0xff0D3F7A),
+                              ),
                               child: Text('메인 화면')),
                         ],
                       ),

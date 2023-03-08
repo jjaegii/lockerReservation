@@ -49,9 +49,26 @@ class ReservationMain extends StatelessWidget {
                     TextSpan(
                         text: ': 예약 불가능한 사물함\n',
                         style: TextStyle(fontWeight: FontWeight.normal)),
+                    TextSpan(
+                        text: '문의 사항은 우측 하단에 채널톡을 이용해주세요.',
+                        style: TextStyle(fontWeight: FontWeight.normal)),
                   ],
                 ),
               ),
+              Padding(padding: EdgeInsets.all(9.0)),
+              const Text.rich(
+                textAlign: TextAlign.center,
+                TextSpan(
+                        text: '※ 주의 ※\n',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'PC 환경에서의 이용을 권장합니다.\n',
+                            style: TextStyle(fontWeight: FontWeight.normal)),
+                          TextSpan(
+                            text: '모바일 이용 시 가로모드로 이용해주세요.',
+                            style: TextStyle(fontWeight: FontWeight.normal)),
+                        ],),)
             ],
           ),
         ),
@@ -132,6 +149,7 @@ Widget caseButton(int row, int column, String loc, int colCount,
                           returnDialog.actions!.add(TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
+                                context.read<ReservationProvider>().getLockers(nowRoomState);
                               },
                               child: Text("확인")));
                           return returnDialog;
