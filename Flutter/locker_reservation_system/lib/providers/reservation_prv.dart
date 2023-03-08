@@ -76,11 +76,17 @@ class ReservationProvider with ChangeNotifier {
       message = "작업 실패";
     }
 
-
     return AlertDialog(
       content: Text(message),
       insetPadding: const EdgeInsets.fromLTRB(0, 80, 0, 80),
       actions: [],
     );
   }
+
+  void setLockersClear() {
+    revModel =
+        ReservationModel(rows: 0, columns: 0, myLocker: null, lockers: []);
+    notifyListeners();
+  }
+
 }

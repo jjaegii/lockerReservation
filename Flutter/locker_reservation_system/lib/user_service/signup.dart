@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/network/network.dart';
+import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:locker_reservation_system/user_service/hashing.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -52,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     if (success) {
                       String nextPage = '/';
                       MyRouter.router.navigateTo(context, nextPage);
+                      context.read<ReservationProvider>().setLockersClear();
                     }
                   },
                   child: Text('확인'))
@@ -411,6 +414,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               onPressed: () {
                                 String nextPage = '/';
                                 MyRouter.router.navigateTo(context, nextPage);
+                                context
+                                      .read<ReservationProvider>()
+                                      .setLockersClear();
                               },
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: Color(0xff0D3F7A),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/user_service/hashing.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
@@ -115,16 +116,22 @@ class _LoginPageState extends State<LoginPage> {
                                     ? _isSidEight = true
                                     : _isSidEight = false;
                                 _pw = _pwController.text;
-                                _pw.isEmpty ? _isPwNull = true : _isPwNull = false;
+                                _pw.isEmpty
+                                    ? _isPwNull = true
+                                    : _isPwNull = false;
                               });
                               // 학번, 비밀번호 입력란
                               if (!_isSidNull & !_isPwNull) {
                                 _pw = pwHashing(_pw);
-                                int status = await _sidProvider.login(_sid, _pw);
+                                int status =
+                                    await _sidProvider.login(_sid, _pw);
                                 if (status == 200) {
                                   // 로그인 성공
                                   String nextPage = '/';
                                   MyRouter.router.navigateTo(context, nextPage);
+                                  context
+                                      .read<ReservationProvider>()
+                                      .setLockersClear();
                                 } else {
                                   // 로그인 실패 시 팝업창 띄우기
                                   String caution;
@@ -148,6 +155,9 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               String nextPage = '/';
                               MyRouter.router.navigateTo(context, nextPage);
+                              context
+                                      .read<ReservationProvider>()
+                                      .setLockersClear();
                             },
                             style: OutlinedButton.styleFrom(
                               foregroundColor: Color(0xff0D3F7A),
