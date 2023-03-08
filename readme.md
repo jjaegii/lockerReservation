@@ -128,14 +128,6 @@ location / {
     uwsgi_pass django;
 }
 
-location /static/ {
-    alias /home/ubuntu/{프로젝트 static 폴더};
-}
-
-location /media/ {
-    alias /home/ubuntu/{프로젝트 media 폴더};
-}
-
 $ sudo service nginx restart
 ```
 
