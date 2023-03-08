@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/user_service/hashing.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
@@ -101,48 +102,69 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _pwController,
                     ),
                     // 확인 버튼 -> 메인 페이지로 이동
-                    ElevatedButton(
-                        onPressed: () async {
-                          setState(() {
-                            _sid = _sidController.text;
-                            _sid.isEmpty
-                                ? _isSidNull = true
-                                : _isSidNull = false;
-                            _sid.length == 8
-                                ? _isSidEight = true
-                                : _isSidEight = false;
-                            _pw = _pwController.text;
-                            _pw.isEmpty ? _isPwNull = true : _isPwNull = false;
-                          });
-                          // 학번, 비밀번호 입력란
-                          if (!_isSidNull & !_isPwNull) {
-                            _pw = pwHashing(_pw);
-                            int status = await _sidProvider.login(_sid, _pw);
-                            if (status == 200) {
-                              // 로그인 성공
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _sid = _sidController.text;
+                                _sid.isEmpty
+                                    ? _isSidNull = true
+                                    : _isSidNull = false;
+                                _sid.length == 8
+                                    ? _isSidEight = true
+                                    : _isSidEight = false;
+                                _pw = _pwController.text;
+                                _pw.isEmpty
+                                    ? _isPwNull = true
+                                    : _isPwNull = false;
+                              });
+                              // 학번, 비밀번호 입력란
+                              if (!_isSidNull & !_isPwNull) {
+                                _pw = pwHashing(_pw);
+                                int status =
+                                    await _sidProvider.login(_sid, _pw);
+                                if (status == 200) {
+                                  // 로그인 성공
+                                  String nextPage = '/';
+                                  MyRouter.router.navigateTo(context, nextPage);
+                                  context
+                                      .read<ReservationProvider>()
+                                      .setLockersClear();
+                                } else {
+                                  // 로그인 실패 시 팝업창 띄우기
+                                  String caution;
+                                  if (status == 401) {
+                                    caution = "학번과 비밀번호를 확인하세요.";
+                                  } else if (status == 404) {
+                                    caution = "존재하지 않는 학번입니다.";
+                                  } else {
+                                    caution = "로그인 할 수 없습니다.";
+                                  }
+                                  _showLoginErrorDialog(context, caution);
+                                }
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xff0D3F7A),
+                            ),
+                            child: Text('로그인')),
+                        // 메인 화면 버튼
+                        OutlinedButton(
+                            onPressed: () {
                               String nextPage = '/';
                               MyRouter.router.navigateTo(context, nextPage);
-                            } else {
-                              // 로그인 실패 시 팝업창 띄우기
-                              String caution;
-                              if (status == 401) {
-                                caution = "학번과 비밀번호를 확인하세요.";
-                              } else if (status == 404) {
-                                caution = "존재하지 않는 학번입니다.";
-                              } else {
-                                caution = "로그인 할 수 없습니다.";
-                              }
-                              _showLoginErrorDialog(context, caution);
-                            }
-                          }
-                        },
-                        child: Text('로그인')),
-                    ElevatedButton(
-                        onPressed: () {
-                          String nextPage = '/';
-                          MyRouter.router.navigateTo(context, nextPage);
-                        },
-                        child: Text('메인 화면')),
+                              context
+                                      .read<ReservationProvider>()
+                                      .setLockersClear();
+                            },
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Color(0xff0D3F7A),
+                            ),
+                            child: Text('메인 화면')),
+                      ],
+                    ),
                   ],
                 ),
               ),

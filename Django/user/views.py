@@ -24,6 +24,9 @@ def phone_api(request, format=None):
             request.data['cert_status'] = False
             print(request.data)
             serializer = CertSerializer(data=request.data)
+            if Cert_table.objects.filter(phone_num=request.data['phone_num']).exists():
+                Cert_table.objects.filter(
+                    phone_num=request.data['phone_num']).delete()
             if serializer.is_valid():
                 serializer.save()
             cert_funcs().certification(

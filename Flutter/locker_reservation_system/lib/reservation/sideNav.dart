@@ -53,7 +53,7 @@ Widget roomButton(String roomName, int index, BuildContext context) {
     width: 250,
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-          backgroundColor: Color.fromARGB(255, 59, 106, 186)),
+          backgroundColor: Color(0xff0D3F7A)),
       child: Text(
         roomName,
         textAlign: TextAlign.center,

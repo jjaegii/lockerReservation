@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/network/network.dart';
+import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:locker_reservation_system/user_service/hashing.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -52,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     if (success) {
                       String nextPage = '/';
                       MyRouter.router.navigateTo(context, nextPage);
+                      context.read<ReservationProvider>().setLockersClear();
                     }
                   },
                   child: Text('확인'))
@@ -87,7 +90,6 @@ class _SignUpPageState extends State<SignUpPage> {
               flex: 8,
               child: SizedBox(
                 height: 600,
-                // width: 600,
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -211,6 +213,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                             }
                                           }
                                         : null,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xff0D3F7A),
+                                    ),
                                     child: Text(
                                       '인증번호\n요청',
                                       style: TextStyle(fontSize: 12),
@@ -293,6 +298,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                             }
                                           }
                                         : null,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xff0D3F7A),
+                                    ),
                                     child: Text(
                                       !_authentication ? '인증하기' : '인증완료',
                                       style: TextStyle(fontSize: 12),
@@ -396,14 +404,23 @@ class _SignUpPageState extends State<SignUpPage> {
                                   _showRegisterDialog(context, caution, false);
                                 }
                               },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff0D3F7A),
+                              ),
                               child: Text('확인')),
 
                           // 뒤로가기 버튼
-                          ElevatedButton(
+                          OutlinedButton(
                               onPressed: () {
                                 String nextPage = '/';
                                 MyRouter.router.navigateTo(context, nextPage);
+                                context
+                                      .read<ReservationProvider>()
+                                      .setLockersClear();
                               },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Color(0xff0D3F7A),
+                              ),
                               child: Text('메인 화면')),
                         ],
                       ),

@@ -63,11 +63,15 @@ class ReservationProvider with ChangeNotifier {
     print("예약하기 StatusCode : ${returnStatus['status']}");
 
     if (returnStatus['status'] == 201) {
-      message = "예약(취소) 성공!";
+      message = "사물함 예약에 성공하였습니다!";
+    } else if (returnStatus['status'] == 202) {
+      message = "사물함 예약이 취소되었습니다.";
     } else if (returnStatus['status'] == 401) {
-      message = "잘못된 요청";
+      message = "로그인 후 사물함 신청이 가능합니다.";
+    } else if (returnStatus['status'] == 403) {
+      message = "사물함 신청 기간이 아닙니다. 신청 기간을 확인하세요.";
     } else if (returnStatus['status'] == 409) {
-      message = "이미 사용중인 사물함 입니다.";
+      message = "이미 신청이 완료되었거나, 다른 사람이 사용 중인 사물함입니다.";
     } else {
       message = "작업 실패";
     }
@@ -78,4 +82,11 @@ class ReservationProvider with ChangeNotifier {
       actions: [],
     );
   }
+
+  void setLockersClear() {
+    revModel =
+        ReservationModel(rows: 0, columns: 0, myLocker: null, lockers: []);
+    notifyListeners();
+  }
+
 }
