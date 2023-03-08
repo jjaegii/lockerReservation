@@ -163,6 +163,8 @@ fluro                   2.0.5
 http                    0.13.5
 flutter_dotenv          5.0.2
 flutter_svg             2.0.2
+crypto                  3.0.2
+url_strategy            0.2.0
 </pre>
 
 ### 😎 Backend
