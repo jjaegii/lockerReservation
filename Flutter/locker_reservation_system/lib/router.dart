@@ -19,7 +19,7 @@ class MyRouter {
   static final Handler _homePageHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
           MainPage(
-            title: '사물함 예약 시스템',
+            title: '컴퓨터공학과 사물함 예약 시스템',
           ));
   // 로그인 페이지 핸들러
   static final Handler _loginPageHandler = Handler(

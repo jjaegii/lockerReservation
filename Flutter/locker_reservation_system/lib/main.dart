@@ -7,8 +7,10 @@ import 'package:locker_reservation_system/providers/sid_prv.dart';
 import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/reservation/sideNav.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main(){
+  setPathUrlStrategy();
   MyRouter.setupRouters();
   NetworkMananger.logoutReq("/logout");
   runApp(const MyApp());
@@ -25,10 +27,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ReservationProvider()),
       ],
       child: MaterialApp(
-        title: 'Locker Reservation Service',
+        title: '컴퓨터공학과 사물함 예약 시스템',
         onGenerateRoute: MyRouter.router.generator,
         initialRoute: '/',
-        home: MainPage(title: '사물함 예약 시스템'),
+        home: MainPage(title: '컴퓨터공학과 사물함 예약 시스템'),
       ),
     );
   }
