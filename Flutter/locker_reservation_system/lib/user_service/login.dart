@@ -21,10 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   String _sid = '';
   String _pw = '';
   bool _isSidNull = false;
-  bool _isSidEight = false;
-  bool _isSidError = false;
   bool _isPwNull = false;
-  bool _isPwError = false;
 
   void _showLoginErrorDialog(BuildContext context, String caution) {
     showDialog(
@@ -112,9 +109,6 @@ class _LoginPageState extends State<LoginPage> {
                                 _sid.isEmpty
                                     ? _isSidNull = true
                                     : _isSidNull = false;
-                                _sid.length == 8
-                                    ? _isSidEight = true
-                                    : _isSidEight = false;
                                 _pw = _pwController.text;
                                 _pw.isEmpty
                                     ? _isPwNull = true

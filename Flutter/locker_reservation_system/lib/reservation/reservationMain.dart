@@ -127,7 +127,7 @@ Widget caseButton(int row, int column, String loc, int colCount,
     onPressed: () {
       showDialog(
           context: context,
-          barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+          barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
           builder: (BuildContext context) {
             return AlertDialog(
               content: colorPicker == 2
@@ -144,7 +144,7 @@ Widget caseButton(int row, int column, String loc, int colCount,
                     Navigator.of(context).pop();
                     showDialog(
                         context: context,
-                        barrierDismissible: true,
+                        barrierDismissible: false,
                         builder: (BuildContext context) {
                           returnDialog.actions!.add(TextButton(
                               onPressed: () {
