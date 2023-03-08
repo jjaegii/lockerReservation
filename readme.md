@@ -145,6 +145,13 @@ new sites, or if you're confident your site works on HTTPS. You can undo this
 # 2 : http->https 자동 리다이렉트 지원 O
 ```
 
+### 결과 출력
+result_ui 디렉토리에서
+```
+$ python3 create.py
+```
+실행하면 locker_state.png 파일이 생김
+
 ## 💻 개발/배포 환경
 ### 😇 Frontend
 <pre>
@@ -201,6 +208,9 @@ uWSGI                   2.0.21
 
 - 채널톡
     ![5](https://user-images.githubusercontent.com/77189999/223708357-5c13529a-74ab-4754-972b-09f320772f50.png)
+
+- 결과 출력
+    ![locker_state](https://user-images.githubusercontent.com/77189999/223716356-a2752190-c031-4396-aba5-473ef552eabb.png)
 
 
 ## 👩‍👩‍👧‍👦 Contributors
