@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:locker_reservation_system/providers/reservation_prv.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/sid_prv.dart';
@@ -71,6 +72,9 @@ class _NavBarState extends State<NavBar> {
                                           _sidProvider.logout();
                                           String nextPage = '/';
                                           MyRouter.router.navigateTo(context, nextPage);
+                                          context
+                                            .read<ReservationProvider>()
+                                            .setLockersClear();
                                         },
                                         child: Text('확인')),
                                     TextButton(

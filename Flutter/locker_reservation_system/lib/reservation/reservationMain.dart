@@ -63,10 +63,10 @@ class ReservationMain extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.bold),
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'PC 환경에서의 이용을 권장합니다.\n',
+                            text: 'PC환경에서의 이용을 권장합니다.\n',
                             style: TextStyle(fontWeight: FontWeight.normal)),
                           TextSpan(
-                            text: '모바일 이용 시 가로모드로 이용해주세요.',
+                            text: '모바일 접속 시 원활한 이용이 제한될 수 있습니다.',
                             style: TextStyle(fontWeight: FontWeight.normal)),
                         ],),)
             ],
