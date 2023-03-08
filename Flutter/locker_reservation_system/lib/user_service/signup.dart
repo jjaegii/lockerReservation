@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:locker_reservation_system/navbar.dart';
 import 'package:locker_reservation_system/network/network.dart';
 import 'package:locker_reservation_system/router.dart';
@@ -192,12 +191,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 _authReqBtn = false;
                                               });
                                               // 인증번호 요청 보내기
-                                              String serverUrl =
-                                                  dotenv.env['SERVER_URL'] ??
-                                                      "http://localhost:8000";
                                               var status =
                                                   await NetworkMananger().post(
-                                                      "$serverUrl/cert",
+                                                      "/cert",
                                                       json.encode({
                                                         'phone_num': _phnum
                                                       }));
@@ -263,12 +259,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                               _auth = _authController.text;
                                             });
                                             // 인증번호 확인 요청
-                                            String serverUrl =
-                                                dotenv.env['SERVER_URL'] ??
-                                                    "http://localhost:8000";
                                             var response =
                                                 await NetworkMananger().post(
-                                                    "$serverUrl/check",
+                                                    "/check",
                                                     json.encode({
                                                       'phone_num': _phnum,
                                                       'cert_number': _auth,
@@ -371,12 +364,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                     // 비밀번호 암호화
                                     _pw = pwHashing(_pw);
                                     // 회원가입 요청
-                                    String serverUrl =
-                                        dotenv.env['SERVER_URL'] ??
-                                            "http://localhost:8000";
                                     int status =
                                         await NetworkMananger().registerPost(
-                                            "$serverUrl/register",
+                                            "/register",
                                             json.encode({
                                               'studentID': _sid,
                                               'name': _name,
@@ -414,7 +404,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 String nextPage = '/';
                                 MyRouter.router.navigateTo(context, nextPage);
                               },
-                              child: Text('뒤로가기')),
+                              child: Text('메인 화면')),
                         ],
                       ),
                     ],

@@ -3,8 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:locker_reservation_system/router.dart';
 import 'package:provider/provider.dart';
 import 'package:locker_reservation_system/providers/sid_prv.dart';
-// import 'package:locker_reservation_system/user_service/login.dart';
-// import 'package:locker_reservation_system/user_service/signup.dart';
 
 // 상단 바 부분
 
@@ -61,9 +59,28 @@ class _NavBarState extends State<NavBar> {
                       ),
                       TextButton(
                           onPressed: () {
-                            String nextPage = '/';
-                            MyRouter.router.navigateTo(context, nextPage);
-                            _sidProvider.logout();
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text('로그아웃 하시겠습니까?'),
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          _sidProvider.logout();
+                                          String nextPage = '/';
+                                          MyRouter.router.navigateTo(context, nextPage);
+                                        },
+                                        child: Text('확인')),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('취소')),
+                                  ],
+                                );
+                              });
                           },
                           child: Text(
                             '로그아웃',
