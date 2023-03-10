@@ -27,7 +27,8 @@ def LockerList(request, format=None):
                 err = "not enable data"
                 raise exceptions.ParseError("not enable data")
             # print(loc)
-            queryset = Locker.objects.filter(location=loc)
+            queryset = Locker.objects.filter(
+                location=loc).order_by('row', 'column')
             serializer = LockerSerializer(queryset, many=True)
 
             if (loc == 'a'):  # 1층 114앞
