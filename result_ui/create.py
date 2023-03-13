@@ -2,11 +2,15 @@ import sqlite3, os
 import numpy as np
 import cv2
 from PIL import ImageFont, ImageDraw, Image
+import json
 
 font = ImageFont.truetype('./GULIM.TTC',38) # 폰트경로
 font2 = ImageFont.truetype('./GULIM.TTC',50) # 폰트경로
 
 conn = sqlite3.connect('../Django/db.sqlite3') # db 경로
+jfile = open('../excel_to_db/keeping_list.json')# 유지 인원 json파일 경로
+keep_list = json.load(jfile)
+
 c = conn.cursor()
 lock_a =  [["0" for col in range(20)] for row in range(5)]
 lock_b =  [["0" for col in range(6)] for row in range(5)]
@@ -18,27 +22,47 @@ lock_e =  [["0" for col in range(12)] for row in range(5)]
 for i in c.execute('SELECT * FROM locker_state_locker where location = "a"').fetchall():
     lock_a[i[1]][i[2]]=i[3]
     stid_a = i[3]
-    lock_a[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_a+'"').fetchall()[0][0] # 이름
+    ret = next((item for item in keep_list if item['studentID'] == stid_a), None)
+    if(ret == None):
+        lock_a[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_a+'"').fetchall()[0][0] # 이름
+    else:
+        lock_a[i[1]][i[2]]+= '\n'+ret['name']
     
 for i in c.execute('SELECT * FROM locker_state_locker where location = "b"').fetchall():
     lock_b[i[1]][i[2]]=i[3]
     stid_b = i[3]
-    lock_b[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_b+'"').fetchall()[0][0] # 이름
-
+    ret = next((item for item in keep_list if item['studentID'] == stid_b), None)
+    if(ret == None):
+        lock_b[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_b+'"').fetchall()[0][0] # 이름
+    else:
+        lock_b[i[1]][i[2]]+= '\n'+ret['name']
+        
 for i in c.execute('SELECT * FROM locker_state_locker where location = "c"').fetchall():
     lock_c[i[1]][i[2]]=i[3]
     stid_c = i[3]
-    lock_c[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_c+'"').fetchall()[0][0] # 이름
+    ret = next((item for item in keep_list if item['studentID'] == stid_c), None)
+    if(ret == None):
+        lock_c[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_c+'"').fetchall()[0][0] # 이름
+    else:
+        lock_c[i[1]][i[2]]+= '\n'+ret['name']
 
 for i in c.execute('SELECT * FROM locker_state_locker where location = "d"').fetchall():
     lock_d[i[1]][i[2]]=i[3]
     stid_d = i[3]
-    lock_d[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_d+'"').fetchall()[0][0] # 이름
+    ret = next((item for item in keep_list if item['studentID'] == stid_d), None)
+    if(ret == None):
+        lock_d[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_d+'"').fetchall()[0][0] # 이름
+    else:
+        lock_d[i[1]][i[2]]+= '\n'+ret['name']
 
 for i in c.execute('SELECT * FROM locker_state_locker where location = "e"').fetchall():
     lock_e[i[1]][i[2]]=i[3]
     stid_e = i[3]
-    lock_e[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_e+'"').fetchall()[0][0] # 이름
+    ret = next((item for item in keep_list if item['studentID'] == stid_e), None)
+    if(ret == None):
+        lock_e[i[1]][i[2]]+= '\n'+c.execute('select name from user_user where studentID = "'+stid_e+'"').fetchall()[0][0] # 이름
+    else:
+        lock_e[i[1]][i[2]]+= '\n'+ret['name']
     
 
 img = np.zeros((2300,5000, 3), dtype=np.uint8)
@@ -49,26 +73,46 @@ cv2.rectangle(img, (100,100), (500,200), color=(0, 0, 0), thickness=4)
 
 for row in range(len(lock_a)):
     for col in range(len(lock_a[0])):
+        ret = next((item for item in keep_list if item['studentID']==lock_a[row][col][0:8]), None)
+        if(ret != None):
+            if(ret['location']=='a' and ret['row']==row and ret['column'] == col):
+                cv2.rectangle(img, (col*200+100,row*100+200), (col*200+200+100,row*100+100+200), color=(155, 155, 0), thickness=-1)  
         cv2.rectangle(img, (col*200+100,row*100+200), (col*200+200+100,row*100+100+200), color=(0, 0, 0), thickness=4)
 
 cv2.rectangle(img, (100,800), (500,900), color=(0, 0, 0), thickness=4)
 for row in range(len(lock_c)):
     for col in range(len(lock_c[0])):
+        ret = next((item for item in keep_list if item['studentID']==lock_c[row][col][0:8]), None)
+        if(ret != None):
+            if(ret['location']=='c' and ret['row']==row and ret['column'] == col):
+                cv2.rectangle(img, (col*200+100,row*100+900), (col*200+200+100,row*100+100+900), color=(155, 155, 0), thickness=-1)
         cv2.rectangle(img, (col*200+100,row*100+900), (col*200+200+100,row*100+100+900), color=(0, 0, 0), thickness=4)
 
 cv2.rectangle(img, (100,1500), (500,1600), color=(0, 0, 0), thickness=4)
 for row in range(len(lock_b)):
     for col in range(len(lock_b[0])):
+        ret = next((item for item in keep_list if item['studentID']==lock_b[row][col][0:8]), None)
+        if(ret != None):
+            if(ret['location']=='b' and ret['row']==row and ret['column'] == col):
+                cv2.rectangle(img, (col*200+100,row*100+1600), (col*200+200+100,row*100+100+1600), color=(155, 155, 0), thickness=-1)
         cv2.rectangle(img, (col*200+100,row*100+1600), (col*200+200+100,row*100+100+1600), color=(0, 0, 0), thickness=4)
 
 cv2.rectangle(img, (4300,100), (4700,200), color=(0, 0, 0), thickness=4)
 for row in range(len(lock_d)):
     for col in range(len(lock_d[0])):
+        ret = next((item for item in keep_list if item['studentID']==lock_d[row][col][0:8]), None)
+        if(ret != None):
+            if(ret['location']=='d' and ret['row']==row and ret['column'] == col):
+                cv2.rectangle(img, (col*200+4300,row*100+200), (col*200+200+4300,row*100+100+200), color=(155, 155, 0), thickness=-1)
         cv2.rectangle(img, (col*200+4300,row*100+200), (col*200+200+4300,row*100+100+200), color=(0, 0, 0), thickness=4)
 
 cv2.rectangle(img, (1500,1500), (1900,1600), color=(0, 0, 0), thickness=4)
 for row in range(len(lock_e)):
     for col in range(len(lock_e[0])):
+        ret = next((item for item in keep_list if item['studentID']==lock_e[row][col][0:8]), None)
+        if(ret != None):
+            if(ret['location']=='e' and ret['row']==row and ret['column'] == col):
+                cv2.rectangle(img, (col*200+1500,row*100+1600), (col*200+200+1500,row*100+100+1600), color=(155, 155, 0), thickness=-1)
         cv2.rectangle(img, (col*200+1500,row*100+1600), (col*200+200+1500,row*100+100+1600), color=(0, 0, 0), thickness=4)
 
 #추가
@@ -123,3 +167,4 @@ img = np.array(img)
 
 cv2.imwrite("locker_state.png",img)
 c.close()
+jfile.close()
