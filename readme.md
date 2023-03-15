@@ -7,51 +7,26 @@
 <br>
 
 ## 💪Installation
-### 장고에서 프로젝트 빌드하기
+### 프로젝트 빌드하기
 
-1. Django 디렉토리 내에서 가상환경 생성
+1. 파이썬 패키지 설치
 
-```python
-$ python3 -m venv {가상환경이름}
-```
-
-1. 가상환경 실행
-
-```python
-$ source {가상환경이름}/bin/activate
-```
-
-1. pip, setuptools 업그레이드
-
-```python
-$ pip install --upgrade pip && pip install --upgrade setuptools
-```
-
-1. 패키지 설치
-
-```python
+```bash
 $ pip install -r requirements.txt
 ```
 
-1. Flutter 빌드 방법
+2. Flutter 빌드
+
+2.1. **수동 빌드**
 
 ```bash
-$ cd lockerReservation/Flutter/locker_reservation_sytem
+$ cd lockerReservation/Flutter/locker_reservation_system
 $ flutter build web
 ```
+Flutter/locker_reservation_system/web/ 내부 파일들을
+Django/flutter_web_app으로 이동
 
-1. 장고 실행
-
-```python
-$ python3 manage.py runserver 0.0.0.0:8000
-```
-
-- 플러터 빌드 파일 변경 시
-flutter build 디렉토리 내 web 디렉토리 내부 파일들
-Django/flutter_web_app 으로 복사
-
-
-### Flutter 자동 빌드하기
+2.2. **스크립트를 사용한 자동 빌드**
 
 <aside>
 🔥 빌드 파일 .gitignore에 추가함으로써 pull request 후 merge 시 필수적으로 시행해야하는 동작
@@ -69,45 +44,17 @@ Django/flutter_web_app 으로 복사
     ```bash
     $ sh moveBuildFile.sh
     ```
-    
-3. 장고에서 프로젝트 빌드하기 6번 실행
-    
-    ```python
-    $ python3 manage.py runserver 0.0.0.0:8000
-    ```
-    
 
-### 서버 URL 수정하기 (.env)
+3. 배포
 
-1. flutter 프로젝트파일의 assets/config 디렉토리로 이동
-    
-    ```bash
-    $ cd Flutter/locker_reservation_system/assets/config
-    ```
-    
-2. .env 파일 오픈
-    
-    ```bash
-    vim .env
-    ```
-    
-3. SERVER_URL의 변수 값 수정
-    
-    ```bash
-    SERVER_URL={SERVER_URL}
-    ```
-<br>
-
-### 전체 배포
-위 사항을 따라 설정 완료 되었다면,
-1. uwsgi 실행
+3.1. uwsgi 실행
 ```bash
 $ cd Django
 
 $ uwsgi --ini uwsgi.ini
 ```
 
-2. Nginx 설치/설정
+3.2. Nginx 설치/설정
 ```bash
 $ sudo apt-get install nginx
 
@@ -116,7 +63,7 @@ $ sudo vi /etc/nginx/nginx.conf
 # http에 upstream django 추가
 http {
     upstream django {
-        server unix:/home/ubuntu/{프로젝트 폴더}/uwsgi.sock;
+        server unix:{프로젝트 폴더 경로}/uwsgi.sock;
     }
 }
 
@@ -131,7 +78,7 @@ location / {
 $ sudo service nginx restart
 ```
 
-3. letsencrypt https 적용
+3.3. letsencrypt https 적용
 ```bash
 $ sudo apt-get install python3-certbot-nginx
 
@@ -145,12 +92,31 @@ new sites, or if you're confident your site works on HTTPS. You can undo this
 # 2 : http->https 자동 리다이렉트 지원 O
 ```
 
-### 결과 출력
-result_ui 디렉토리에서
+### 사물함 데이터 처리
+1. 연장 신청 데이터 -> 데이터베이스 추가
+
+data_processing/excel_processing/2023 컴퓨터공학과 사물함 연장 신청.xlsx
+
+의 양식은 아래와 같다.
+
+이름|사물함 위치|학번|행,열
+----|------|--------|---
+최재혁|114호 앞|21810000|2,7
+김재현|113호 앞|22010000|1,10
+이하생략|이하생략|이하생략|이하생략
+
+연장신청 액셀 데이터 설정이 완료되었다면
+
+data_processing 디렉토리에서
+```bash
+$ bash run.sh migrate
 ```
-$ python3 create.py
+
+2. 사물함 예약 데이터베이스 -> UI로 결과 출력
+```bash
+$ bash run.sh result
 ```
-실행하면 locker_state.png 파일이 생김
+실행하여 생긴 locker_state.png를 사용하면 됨.
 
 ## 💻 개발/배포 환경
 ### 😇 Frontend
