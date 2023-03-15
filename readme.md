@@ -99,11 +99,8 @@ data_processing/excel_processing/2023 컴퓨터공학과 사물함 연장 신청
 
 의 양식은 아래와 같다.
 
-이름|사물함 위치|학번|행,열
-----|------|--------|---
-최재혁|114호 앞|21810000|2,7
-김재현|113호 앞|22010000|1,10
-이하생략|이하생략|이하생략|이하생략
+![엑셀양식](https://user-images.githubusercontent.com/77189999/225254114-84774016-ce86-4cc0-8fcd-06192e144098.png)
+
 
 연장신청 액셀 데이터 설정이 완료되었다면
 
@@ -135,7 +132,7 @@ url_strategy            0.2.0
 
 ### 😎 Backend
 <pre>
-<b>Module                  Version</b>
+<b>Package                 Version</b>
 Python                  3.9
 asgiref                 3.6.0
 autopep8                2.0.1
@@ -161,6 +158,20 @@ urllib3                 1.26.14
 uWSGI                   2.0.21
 </pre>
 
+### Data Processing
+<pre>
+<b>Module                  Version</b>
+et-xmlfile              1.1.0
+numpy                   1.24.2
+opencv-python           4.7.0.72
+openpyxl                3.1.2
+pandas                  1.5.3
+Pillow                  9.4.0
+python-dateutil         2.8.2
+pytz                    2022.7.1
+six                     1.16.0
+</pre>
+
 ## Demo
 - 메인화면
     ![Untitled](https://user-images.githubusercontent.com/77189999/223708338-fcc4f87b-fd09-4295-a5b9-cc2292d80834.png)
@@ -178,7 +189,7 @@ uWSGI                   2.0.21
     ![5](https://user-images.githubusercontent.com/77189999/223708357-5c13529a-74ab-4754-972b-09f320772f50.png)
 
 - 결과 출력
-    ![locker_state](https://user-images.githubusercontent.com/77189999/223716356-a2752190-c031-4396-aba5-473ef552eabb.png)
+    ![locker_state](https://user-images.githubusercontent.com/77189999/225255366-41b22e25-2a36-4417-862a-41b6fbfafee4.png)
 
 
 ## 👩‍👩‍👧‍👦 Contributors
