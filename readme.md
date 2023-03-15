@@ -4,6 +4,8 @@
 > 
 > **영남대 컴퓨터공학과 학생들을 위한 사물함 예약 시스템**    
 
+배포 진행했던 링크 - [yucselocker.site](yucselocker.site)
+
 <br>
 
 ## 💪Installation
@@ -11,109 +13,109 @@
 
 1. 파이썬 패키지 설치
 
-```bash
-$ pip install -r requirements.txt
-```
+    ```bash
+    $ pip install -r requirements.txt
+    ```
 
 2. Flutter 빌드
 
-2.1. **수동 빌드**
+    2.1. 수동 빌드
 
-```bash
-$ cd lockerReservation/Flutter/locker_reservation_system
-$ flutter build web
-```
-Flutter/locker_reservation_system/web/ 내부 파일들을
-Django/flutter_web_app으로 이동
-
-2.2. **스크립트를 사용한 자동 빌드**
-
-<aside>
-🔥 빌드 파일 .gitignore에 추가함으로써 pull request 후 merge 시 필수적으로 시행해야하는 동작
-
-</aside>
-
-1. flutter 프로젝트 디렉토리로 이동
-    
     ```bash
-    $ cd Flutter/locker_reservation_system
+    $ cd lockerReservation/Flutter/locker_reservation_system
+    $ flutter build web
     ```
-    
-2. 빌드 자동화 셸 스크립트 실행
-    
-    ```bash
-    $ sh moveBuildFile.sh
-    ```
+    Flutter/locker_reservation_system/web/ 내부 파일들을
+    Django/flutter_web_app으로 이동
+
+    2.2. 스크립트를 사용한 자동 빌드
+
+    <aside>
+    🔥 빌드 파일 .gitignore에 추가함으로써 pull request 후 merge 시 필수적으로 시행해야하는 동작
+
+    </aside>
+
+    1. flutter 프로젝트 디렉토리로 이동
+        
+        ```bash
+        $ cd Flutter/locker_reservation_system
+        ```
+        
+    2. 빌드 자동화 셸 스크립트 실행
+        
+        ```bash
+        $ sh moveBuildFile.sh
+        ```
 
 3. 배포
 
-3.1. uwsgi 실행
-```bash
-$ cd Django
+    3.1. uwsgi 실행
+    ```bash
+    $ cd Django
 
-$ uwsgi --ini uwsgi.ini
-```
+    $ uwsgi --ini uwsgi.ini
+    ```
 
-3.2. Nginx 설치/설정
-```bash
-$ sudo apt-get install nginx
+    3.2. Nginx 설치/설정
+    ```bash
+    $ sudo apt-get install nginx
 
-$ sudo vi /etc/nginx/nginx.conf
->
-# http에 upstream django 추가
-http {
-    upstream django {
-        server unix:{프로젝트 폴더 경로}/uwsgi.sock;
+    $ sudo vi /etc/nginx/nginx.conf
+    >
+    # http에 upstream django 추가
+    http {
+        upstream django {
+            server unix:{프로젝트 폴더 경로}/uwsgi.sock;
+        }
     }
-}
 
-$ sudo vi /etc/nginx/sites-enabled/default
->
-location / {
-    # try_files $uri $uri/ =404; 삭제
-    include /etc/nginx/uwsgi_params;
-    uwsgi_pass django;
-}
+    $ sudo vi /etc/nginx/sites-enabled/default
+    >
+    location / {
+        # try_files $uri $uri/ =404; 삭제
+        include /etc/nginx/uwsgi_params;
+        uwsgi_pass django;
+    }
 
-$ sudo service nginx restart
-```
+    $ sudo service nginx restart
+    ```
 
-3.3. letsencrypt https 적용
-```bash
-$ sudo apt-get install python3-certbot-nginx
+    3.3. letsencrypt https 적용
+    ```bash
+    $ sudo apt-get install python3-certbot-nginx
 
-$ sudo certbot --nginx -d yucselocker.site
->
-# 이메일, 이용 동의 등 입력
-1: No redirect - Make no further changes to the webserver configuration.
-2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
-new sites, or if you're confident your site works on HTTPS. You can undo this
-# 1 : http->https 자동 리다이렉트 지원 X
-# 2 : http->https 자동 리다이렉트 지원 O
-```
+    $ sudo certbot --nginx -d yucselocker.site
+    >
+    # 이메일, 이용 동의 등 입력
+    1: No redirect - Make no further changes to the webserver configuration.
+    2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+    new sites, or if you're confident your site works on HTTPS. You can undo this
+    # 1 : http->https 자동 리다이렉트 지원 X
+    # 2 : http->https 자동 리다이렉트 지원 O
+    ```
 
 ### 사물함 데이터 처리
 1. 연장 신청 데이터 -> 데이터베이스 추가
 
-data_processing/excel_processing/2023 컴퓨터공학과 사물함 연장 신청.xlsx
+    data_processing/excel_processing/2023 컴퓨터공학과 사물함 연장 신청.xlsx
 
-의 양식은 아래와 같다.
+    의 양식은 아래와 같다.
 
-![엑셀양식](https://user-images.githubusercontent.com/77189999/225254114-84774016-ce86-4cc0-8fcd-06192e144098.png)
+    ![엑셀양식](https://user-images.githubusercontent.com/77189999/225254114-84774016-ce86-4cc0-8fcd-06192e144098.png)
 
 
-연장신청 액셀 데이터 설정이 완료되었다면
+    연장신청 액셀 데이터 설정이 완료되었다면
 
-data_processing 디렉토리에서
-```bash
-$ bash run.sh migrate
-```
+    data_processing 디렉토리에서
+    ```bash
+    $ bash run.sh migrate
+    ```
 
 2. 사물함 예약 데이터베이스 -> UI로 결과 출력
-```bash
-$ bash run.sh result
-```
-실행하여 생긴 locker_state.png를 사용하면 됨.
+    ```bash
+    $ bash run.sh result
+    ```
+    실행하여 생긴 locker_state.png를 사용하면 됨.
 
 ## 💻 개발/배포 환경
 ### 😇 Frontend
