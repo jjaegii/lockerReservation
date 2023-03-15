@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 
 Django/venv/
-result_ui/venv/
+data_processing/venv/
 .DS_Store
 Django/db.sqlite3
 

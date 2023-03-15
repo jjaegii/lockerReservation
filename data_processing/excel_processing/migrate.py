@@ -21,7 +21,7 @@ def getLocation(loc):
 
 
 def sendData(location, row, col, studentID):
-    conn = sqlite3.connect('../Django/db.sqlite3')
+    conn = sqlite3.connect('../../Django/db.sqlite3')
     cursor = conn.cursor()
     sql = 'INSERT INTO locker_state_locker(location, row, column, studentID) VALUES (?,?,?,?)'
     cursor.execute(sql, (location, row, col, studentID))
