@@ -1,10 +1,11 @@
 from cryptography.fernet import Fernet
 from random import randint
+import os
 
 
 class session_funcs:
     def __init__(self):
-        self.key = b'pAl5clMNb27FcwUxvs91XP-oK-3ICJJYBplcJVHAlgY='
+        self.key = os.environ.get("SESSION_KEY")
         self.fernet = Fernet(self.key)
 
     def get(self, request):

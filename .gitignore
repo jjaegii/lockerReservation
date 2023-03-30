@@ -6,6 +6,7 @@ Django/venv/
 data_processing/venv/
 .DS_Store
 Django/db.sqlite3
+Django/.env
 
 # 자꾸 지혼자 변하는 파일
 package_config.json
