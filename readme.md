@@ -1,10 +1,10 @@
-# 🐯 영남대학교 사물함 예약 시스템
+# 🐯 영남대학교 컴퓨터공학과 사물함 예약 시스템
   
 > **최초 배포 버전 개발 기간 : 2023.02 ~ 2023.03**  
 > 
 > **영남대 컴퓨터공학과 학생들을 위한 사물함 예약 시스템**    
 
-배포 진행했던 링크 - [yucselocker.site](yucselocker.site)
+배포 진행했던 링크 - ~~[yucselocker.site](http://yucselocker.site/)~~ (현재 예약 종료, 매년 초 오픈)
 
 <br>
 
@@ -195,10 +195,33 @@ six                     1.16.0
 
 
 ## 👩‍👩‍👧‍👦 Contributors
-![flutter](https://img.shields.io/badge/frontend-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-|[정승균](https://github.com/seunggyun-jeong)|[원준영](https://github.com/Junyoung-WON)|
-|-----|-----|
 
-![django](https://img.shields.io/badge/backend-092E20?style=for-the-badge&logo=django&logoColor=white)
-|[김재현](https://github.com/Grodned)|[최재혁](https://github.com/jjaegii)|
-|-----|-----|
+<table border="1">
+    <th colspan="2">
+        <img src="https://img.shields.io/badge/frontend-02569B?style=for-the-badge&logo=flutter&logoColor=white"></img>
+    </th>
+    <tr>
+        <td align="center">
+            <img src="https://avatars.githubusercontent.com/u/77708819?v=4" width="100px;"></img><br/>
+            <a href="https://github.com/seunggyun-jeong">정승균</a>
+        </td>
+        <td align="center">
+            <img src="https://avatars.githubusercontent.com/u/92203597?v=4" width="100px;"> <br/>
+            <a href="https://github.com/Junyoung-WON">원준영</a></td>
+    </tr>
+</table>
+
+<table border="1">
+    <th colspan="2" >
+        <img src="https://img.shields.io/badge/backend-092E20?style=for-the-badge&logo=django&logoColor=white"></img>
+    </th>
+    <tr>
+        <td align="center">
+            <img src="https://avatars.githubusercontent.com/u/84281599?v=4" width="100px;"></img><br/>
+            <a href="https://github.com/Gordned">김재현</a>
+        </td>
+        <td align="center">
+            <img src="https://avatars.githubusercontent.com/u/77189999?v=4" width="100px;"> <br/>
+            <a href="https://github.com/jjaegii">최재혁</a></td>
+    </tr>
+</table>
